@@ -1,0 +1,73 @@
+% SRL Article
+
+\documentclass[10pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, amssymb, amscd}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{comment}
+\usepackage{color}
+
+ 
+ \title{:\par 1. A comparative study between CVM-SI.26 and CVMS-400 Velocity Model \par 2.The Comparison of Two Versions of Southern California Velocity Models: CVM-SI.26 and CVMS-400\par 3. Evaluation of latest Sothern California Velocity Models, CVM-SI.26, through Simulation and Validation of Multiple Historical Events\par 4. A comparative study between Two Versions of Sothern California Velocity Models: CVMS-400 and the latest one, CVM-SI.26, through Simulation and Validation of Multiple Historical Events }
+\author{}
+\date{2015-May-13}
+\begin{document}
+\maketitle
+\newpage
+
+
+\section{Introduction: }
+
+In recent years, significant advances have been made in 3D waveform tomography (e.g., Tape et al.,2009; Chen et al., 2007a, 2010; Lee et al., 2011; Lee and Chen 2013). In particular, Chen et al. (2007b) and Lee etal., (2013) have used local small and medium-sized earthquakes and ambient noise Green?s functions in full 3Dwaveform tomographic inversions for the crustal structure of the Los Angeles and greater Southern California regions.Thus far, their work has produced a total of 26 iteration datasets with perturbations to the SCEC CommunityVelocity Model (CVM-S). \par
+
+Recently obtained results from a full three-dimensional (3D) tomography inversion for the crustalstructure of the Southern California region provide perturbation datasets that are being integrated backinto the original velocity model used as reference (CVM-S) to build a new model called CVM-SI.26. These perturbationsare, however, available only at a coarse resolution (500 m) and the scheme put forward to integrate themwith CVM-S needs to be tested before the new model CVM-SI.26 can be used for querying information at arbitrarypoints.  \par
+
+The main goal is to provide a better understanding of the improvements in the new modelCVM-SI.26 when compared to the original model CVM-S. This article evaluates the overall improvements obtained with the inversion and tests the correctness of the integration schemes when used at higher resolution than that of the inversion. This evaluation is done systematically through the forward simulation and validation of multiple small- and moderate-sized events using forward simulations in order to avoid biases from individual simulations. 
+
+\section{Methodology and Parameters:  }
+Recent advances in modeling algorithms and methods, and the increasing capability of parallel applications havemade it affordable to solve seismic forward and inverse wave propagation problems over large regions.  \par
+
+As stated in the Science Collaboration Plan, there is an increasing interest in being able to use the results from inversions in forward wave propagation simulations at higher frequencies (0.5-5 Hz). To accomplish this, a task group(including the PI) proposed and implemented various schemes to reconcile the original model (CVM-S) withthe perturbations that resulted from the tomographic inversions (I.26). The resulting models is called CVM-SI.26.There are currently three alternative CVM-SI.26 models which vary depending on how the perturbations were appliedto the original model. The different versions and the overall process are described in greater detail in the GTLentry of the SCEC Wiki Web site (http://scec.usc.edu/scecpedia/GTL). The entire process goes beyond the scope ofthe proposed research because the ultimate goal is, not only to incorporate the inversion results, but also to extendthe implementation to include geotechnical layers (GTL) used inother community models (e.g., CVM-H). I refer here only to themodels that reconcile the inversion perturbations?as a first stepin that process, and use the same nomenclature employed in theWeb site. These models are: \par
+
+(2.2.1) This model applies an integration scheme in whichnegative perturbations are only used outside the basins, andpositive perturbations are used everywhere.\par
+
+(2.2.2) This scheme applies negative perturbations only ifoutside the basins, and disregards positive perturbationswhen inside the basins.\par
+
+(2.2.3) This scheme applies both negative and positive perturbationseverywhere, but sets the original value inside thebasins as a floor limit.\par
+
+Here, the term basin refers to any structure with Vs \le1000m/s?adopting the cutoff value used by Lee et al. (2013) to buildthe starting model. In all cases, the schemes reverse the processused to build the starting model first, in order to recapture theoriginal structures in CVM-S with values of Vs \le 1000 m/s, andapply the perturbations later (as described). These schemes havebeen implemented in the SCEC Unified Community VelocityModel (UCVM) software framework (Gill et al. 2013), which hasalready been used to produce unstructured (etree) meshes (Tabordaet al., 2007; Tu et al., 2003) at resolutions finer than that used in the inversion. Figure 1 shows the Vs profileat a depth of 50 m in an area that includes all the major basins in the Los Angeles region and its corresponding perturbations1.\par
+
+In order to evaluate CVM-SI.26,we need to evaluate the integration scheme and to quantify the improvement (or lack thereof) to the predictionof the ground motion that results from using the new integrated model. The applied method is to do thisby performing a series of simulations using CVM-SI.26 in contrast to CVM-S for a collection of events. The 29 selected events (3.5 \le M \le5.5) are a subset of the 160 earthquakes used in the inversion process. The synthetic ground-motion resultsfrom these simulations are compared with records available for these events through the Southern CaliforniaEarthquake Data Center (www.data.scec.org). The comparisons are done quantitatively using intensity goodness-of-fit measures  of a modified version of the Anderson Goodness-of-Fit (GOF) method and by direct waveform comparisons.This method combines various comparison criteria that are meaningful to both engineers and seismologists, and has been satisfactorily used in previous validation efforts.  Simulations are done at a maximum resolution frequency higher
+than that of the inversion?in order to assess the arbitrariness of the new model?but are kept low enough (0.1 \lefmax \le 1 Hz) so that it facilitates the execution of as many simulations as possible. \par
+
+The process includes gathering of data, setup of simulation models, and execution of aninitial simulations?which is done at the High Performance Computing Center ofBlue Water which has a cluster large enough to conduct initial simulations. The The approach will consists of simulations ofmultiple small- and medium-size events and quantitative validation of synthetics to assess model improvements such as those used in Tabordaand Bielak (2013, 2014).
+This activities will require the use of parallel computing. The PIhas extensive experience working with parallel applications forearthquake ground motion simulation and is one of the main developersof Hercules. \par
+
+Step1. Selection of events and data pre-processing: Atotal of 160 events were used in the 3D tomographic inversiondone by Lee et al. (2013) (see Figure 4.a). We select a regionsimilar to that , that is suitable forevaluating the effects, and select a subset of these events(~30). Seismograms from these events are processed prior to the simulations and filtered to be compatible tothe same parameters of the simulations (fmax). \par
+
+Step 2. Simulation of events: Simulations are done for the events selected in Step 1 and have a maximum frequency 1 Hz. at this resolution, the differencesbetween CVM-S and CVM-SI.26 will have a greaterimpact on the ground motion?which we seek to quantify interms of prediction improvements. \par
+
+Step 3. Post-processing of results and  validation:Results from the simulations obtained in step 2will be compared with the data collected and processed inStep 1. \par
+
+Validation Criteria: \parFor the validation of the different simulations we will use the GOF criterion proposed by Anderson (2004).This criterion uses ten individual parameters (Ci): Arias duration (C1), energy duration (C2), Arias intensity(C3), energy integral (C4), peak acceleration (C5), peak velocity (C6), peak displacement (C7), response
+spectrum (C8), Fourier amplitude spectrum (C9), and cross correlation (C10). Each parameter is scaledsuch that it yields a score varying from 0 to 10, where a score of 10 corresponds to a perfect match betweenthe two signals for the given metric. Following our previous validation work (Taborda and Bielak, 2013b),we add an eleventh metric (C11) to explicitly account for the duration of the strong motion phase of theearthquake and combine them all using the rule: \par
+S = (\frac{1}{9})\times((\frac{1}{2})(C _{1}+ C_{2}) +( \frac{1}{2})(C_{3} + C_{4}) )
+
+Although there are other GOF and misfit criteria available in the literature (e.g. Kristekov?a et al., 2006,2009), we preferred the method introduced by Anderson (2004) because its metrics convey physical meaningto both seismologists and engineers. During the comparative validation process we may still choose othertypical metrics such as biases of individual measurements (i.e., peak ground response) or the arrival time ofP-waves. These additional metrics are useful because they provide signed values for the comparisons.
+
+\section{Results: }
+
+\section{Discussion and conclusions: }
+
+The main research goal of the proposed activities is to evaluate the velocity model CVM-SI.26, which integrates theperturbations obtained from a 3D tomographic inversion based on the original model CVM-S.
+
+\section{Acknowledgements: }
+
+This work was supported by the ? and the Southern California Earthquake Center through ?
+
+\section{References:}
+
+
+
+\end{document}
