@@ -9,35 +9,24 @@
 \usepackage{color}
 
  
- \title{:\par 1. A comparative study between CVM-SI.26 and CVMS-400 Velocity Model \par 2.The Comparison of Two Versions of Southern California Velocity Models: CVM-SI.26 and CVMS-400\par 3. Evaluation of latest Sothern California Velocity Models, CVM-SI.26, through Simulation and Validation of Multiple Historical Events\par 4. A comparative study between Two Versions of Sothern California Velocity Models: CVMS-400 and the latest one, CVM-SI.26, through Simulation and Validation of Multiple Historical Events }
+ \title{:\par 1. A comparative study between CVM-SI.26 and CVMS-400 Velocity Model \par 2.The Comparison of Two Versions of Southern California Velocity Models: CVM-SI.26 and CVMS-400\par 3. Evaluation of latest Southern California Velocity Models, CVM-SI.26, through Simulation and Validation of Multiple Historical Events\par 4. A comparative study between Two Versions of Southern California Velocity Models: CVMS-400 and the latest one, CVM-SI.26, through Simulation and Validation of Multiple Historical Events }
 \author{}
-\date{2015-May-13}
 \begin{document}
 \maketitle
-\newpage
-
 
 \section{Introduction: }
-Earthquake simulations are needed to understand thepropagation of seismic waves, the characteristics of theground motion, and as a complement or a substitute to recordeddata. Among the several alternatives to earthquakesimulations, physics-based, deterministic earthquake simulationshave drawn significant attention from seismologists andearthquake engineers in the last few years.   \par
+Among the several alternatives to earthquake simulations, physics-based, deterministic approach to seismic hazard analysis (SHA) 
+have drawn significant attention from seismologists and earthquake engineers in the last few years.   \par
+These simulations use numerical approaches such as the finite-element (FE), finite-difference (FD), 
+and high-order FE or spectral element methods (e.g., Frankel and Vidale, 1992; Olsen et al., 1995; Graves, 1996; Bao et al., 1998; Seriani, 1998; Käser and Dumbser, 2006). 
+With the growth of high-performance computing (HPC) facilities and applications, the implementation of numerical methods for large scale
+three-dimensional (3D) earthquake simulations and rupture dynamics has progressed considerably  and researchers are now modeling earthquake-related processes at a level of fidelity that was thought not possible just a few years ago (e.g., Komatitsch et al., 2004; Aagaard et al., 2008; Graves, 2008; Olsen et al., 2009; Bielak et al., 2010; Cui et al., 2010). \par 
 
-% how much history for simulation?
-(These simulationsuse numerical approaches such as the finite-element (FE), finite-difference (FD), and high-order FE or spectral elementmethods (e.g., Frankel and Vidale, 1992; Olsen et al.,1995; Graves, 1996; Bao et al., 1998; Seriani, 1998; Käserand Dumbser, 2006). In particular, thanks to the acceleratedgrowth of high-performance computing facilities and applications,the implementation of numerical methods for largescalethree-dimensional (3D) earthquake simulations andrupture dynamics has progressed considerably in the lastdecade (e.g., Komatitsch et al., 2004; Aagaard et al.,2008; Graves, 2008; Olsen et al., 2009; Bielak et al., 2010) \par 
-
-Most large-scale deterministic earthquake simulationshave been limited to modeling the propagation of lowfrequency
-waves, with resolution parameters fixed at maximumfrequencies, fmax ? 1 Hz, and relatively high valuesof minimum shear-wave velocity, VSmin? 500 m=s (e.g.,Komatitsch et al., 2004; Olsen et al., 2009; Graves andAagaard, 2011). This has been due, in part, to the particularlimitations of simulation algorithms and computer codes, andthe available capacity of high-performance computing facilities.But it has also been due to the common understandingwithin the scientific community that the available mathematicalmodels of the soil layers and crustal structure of the Earth,and the theory of anelastic wave propagation, are insufficientto accurately represent the level of scattering and interferencespresent at higher frequencies and softer, shallower soildeposits. Consequently, broadband simulations required forrealistic seismic hazard analysis, engineering applications,and structural design are increasingly being produced usinghybrid methods. These methods combine stochastic anddeterministic approaches to produce synthetic seismograms(e.g., Liu et al., 2006; Graves and Pitarka, 2010). They takeinto consideration the physics of the earthquake at low
-frequencies from the deterministic simulation, and the randomcharacteristics observed in transient data recorded duringpast earthquakes from the stochastic method. \par 
-Validation studies of deterministic simulations thus farhave been limited to very low to low maximum frequencies(fmax  0:1?1:0 Hz), and, in general, they have only usedqualitative, subjective waveform comparisons betweensimulation synthetics and recorded seismograms or have narrowlyused quantitative metrics such as biases and residualsat a reduced number of selected locations (e.g., Hartzell et al.,2006; Aagaard et al., 2008; Fukuyama et al., 2009). Otherthan in the case of simulations that use hybrid approaches,there have been only a few efforts to explore the validity ofdeterministic earthquake ground-motion simulations atmaximum frequencies higher than 1 Hz. Simulations thatconsider the effects of soft-soil deposits with shear-wavevelocities as low as 200?300 m=s have also been rare (e.g.,Taborda et al., 2009; Chaljub et al., 2010). Therefore, there isa need for exploring up to what frequencies deterministicsimulations continue to be valid. \par )
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Much progress has been made in earthquake simulation over the last two decades towards a physics-basedapproach to seismic hazard analysis (SHA). Thanks to the aid of high-performance computing (HPC) applications,researchers are now modeling earthquake-related processes at a level of fidelity that was thoughtnot possible just a few years ago (e.g., Bielak et al., 2010; Cui et al., 2010). This has allowed us to deliverproducts of relevant application in seismology and engineering, such as families of synthetics for scenarioearthquakes (e.g., Jones et al., 2008) and physics-based seismic hazard maps (e.g., Graves et al., 2011). Thecomplexity and multi-scale nature of earthquakes, however, still poses immense challenges. 
-
-One of thesechallenges is the accuracy of the models that are used as input in HPC applications for earthquake systemssimulation. Current efforts in physics-based SHA, for instance, heavily depend on the source and velocity modelsused as input. In particular, solving forward anelastic wave-propagation problems in earthquake simulationsbuilds upon the accuracy of both these models. 
- \par
+This has allowed us to deliver products of relevant application in seismology and engineering, such as families of synthetics for scenario earthquakes (e.g., Jones et al., 2008) and physics-based seismic hazard maps (e.g., Graves et al., 2011). The complexity and multi-scale nature of earthquakes, however, still poses immense challenges like the accuracy of the models which is heavily depend on the source and velocity models used as input. \par
 
 In recent years, significant advances have been made in 3D waveform tomography (e.g., Tape et al.,
 2009; Chen et al., 2007a, 2010; Lee et al., 2011; Lee and Chen 2013). In particular, Chen et al. (2007b) and Lee et
-al., (2013) have used local small and medium-sized earthquakes and ambient noise Green?s functions in full 3D
+al., (2013) have used local small and medium-sized earthquakes and ambient noise Green's functions in full 3D
 waveform tomographic inversions for the crustal structure of the Los Angeles and greater Southern California regions.
 Thus far, their work has produced a total of 26 iteration datasets with perturbations to the SCEC Community
 Velocity Model (CVM-S). \par
@@ -49,17 +38,49 @@ are, however, available only at a coarse resolution (500 m) and the scheme put f
 with CVM-S needs to be tested before the new model CVM-SI.26 can be used for querying information at arbitrary
 points.  \par
 
-The main goal is to provide a better understanding of the improvements in the new model
+The main goal here is to provide a better understanding of the improvements in the new model
 CVM-SI.26 when compared to the original model CVM-S. This article evaluates the overall improvements obtained with the inversion and tests the correctness of the integration schemes when used at higher resolution than that of the inversion. This evaluation is done systematically through the forward simulation and validation of multiple small- and moderate-sized events using forward simulations in order to avoid biases from individual simulations. 
 
-\section{Methodology and Parameters:  }
-Recent advances in modeling algorithms and methods, and the increasing capability of parallel applications have
-made it affordable to solve seismic forward and inverse wave propagation problems over large regions.  \par
 
-As stated in the Science Collaboration Plan, there is an increasing interest in being able to use the results from 
-inversions in forward wave propagation simulations at higher frequencies (0.5-5 Hz). To accomplish this, a task group
-(including the PI) proposed and implemented various schemes to reconcile the original model (CVM-S) with
-the perturbations that resulted from the tomographic inversions (I.26). The resulting models is called CVM-SI.26.
+\section{Material Models: CVMS400 and CVMS426 }
+
+The ability to simulate seismograms depends on having accurate 3D material model. Material models, also called seismic velocity or crustal models, are a key element in the simulation process because, while being used to construct the mesh and determine the properties of mesh elements that constitute the numerical representation of the system,their properties determine in good part the outcome of the simulation. \par
+
+High-resolution seismic velocity models in urban regions have received increased attention over the last decade due to the interest in earthquake modelling. Several material modelshave been developed and improved over the years for the regions of southern and northern California (e.g. Graves 1996b; Magistraleet al. 1996; Hauksson & Haase 1997; Magistrale et al. 2000; Kohler et al. 2003; S?uss & Shaw 2003; Brocher 2005). \par
+
+We use subsets of SCEC?s Community Velocity Model (CVM), version 4.0, and version 4.26 in a discretized form that is stored in a database library called ?etree?(Tu et al. 2003); this accelerates considerably the mesh generation process (Schlosser et al. 2008). The CVM was built upon the initial model assembled byMagistrale et al. (1996), and later extended and improved by Magistrale et al. (2000) and Kohler et al. (2003). In Magistrale et al. (2000), the P-wave velocity (Vp) of the major southern California basins (Los Angeles basin,Ventura basin, San GabrielValley, San Fernando Valley, Chino basin, San Bernardino Valley and the Salton Trough) was determined primarily by application of empirical rules based on depths and ages estimated for four geological horizons and calibrated for southern California with data from deep boreholes. The density and Poisson?s ratio (and S-wave velocity, Vs) were estimated from Vp using empirical relationships. Outside and below the basins, properties were based on 3-D seismic tomography(Hauksson 2000). Kohler et al. (2003) added upper mantle seismic velocities to the model, based on the inversion of teleseismic traveltimeresiduals obtained from three temporary passive experiments and stations of the Southern California Seismic Network. \par
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The latest release by SCEC, CVM version 4.0, has a new San Bernardino Valley basement, based on recent inversions of gravity data confirmed by comparison to a seismic reflection line. The depth to basement of the Salton Trough was extended to the northern Mexican territory and redefined by a combination of seismic refraction surveys, inversionof gravity observations, surface geology, and boreholes. CVM version 4.0 also has a new V p-density relationship based on densitymeasurements from oil well samples in the Los Angeles basin and the San Gabriel Valley, geotechnical boreholes throughout southernCalifornia, and 12 oil wells along the Los Angeles Region Seismic Experiment lines. \par
+The CVM is distributed as a Fortran code that reads points specifiedby latitude, longitude and depth, and writes out Vp, V s, anddensity (?) values at those points. Since the Fortran code has tocombine data from many different associated files, its performancefor the construction of large meshes needed for FDM and FEMmodels is poor. To overcome this problem and to unify to the maximumpossible extent the data used for the grids and mesh generationprocesses of each modelling group, we stored a discretized versionof the CVM (for the region of interest) in an octant tree databaseform, called ?etree? (Tu et al. 2003). The etree library is knownfor its efficiency in query retrieval time and has been used successfullyin past earthquake simulations (e.g. Akcelik et al. 2003;Rodgers et al. 2008). The discretization process, described in detailin Taborda et al. (2007), was done in a way that guarantees thatthe discretized version, hereafter called CVM?Etree, is appropriatefor simulations up to a maximum frequency f max = 1 Hz and aminimum shear wave velocity Vsmin= 200 ms?1, with at least eightpoints per wavelength (p = 8). The resolution of the CVM-Etreedecreases with depth while maintaining the rule eo ? (Vs/ f max)/p,where eo is the octant edge size. This results in a minimum octantat the surface with eo = 18.3 m?where there is maximumvariability?and a maximum octant with eo = 9.2 km at 80 km indepth?where the crustal structure is fairly homogeneous. Fig. 5shows the southern California basins and other geological featuresas represented in the model, and the basins floor and shear wavevelocity structure of the resulting CVM-Etree at various depths. \par
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+CVM-S is built upon the original work by Magistrale et al.(1996, 2000). It integrates available information about themajor southern California basins (Los Angeles basin,Ventura basin, San Gabriel valley, San Fernando valley,Chino basin, San Bernardino valley, and the Salton trough).Outside and below the basins, CVM-S uses a 3D seismictomography model (Hauksson, 2000) and an upper-mantlemodel based on teleseismic inversions (Kohler et al., 2003).Inside the basins, it uses data from shallow and deep boreholes,oil wells, gravity observations, seismic refraction surveys
+surveys,and other empirical rules based on the depths and agesestimated for a set of geological horizons.When queried at a particular longitude, latitude, anddepth, CVM-S provides the values of VP, VS, and ? for thespecific query point. In general, CVM-S operates by depth,in reference to the free surface, but does not provide informationabout the topography. We ignore the free-surfaceelevation and model the region in the simulation domainby flattening the topography (see squashed topography inAagaard et al., 2008). We access the information stored inCVM-S through the Unified Community Velocity Model(UCVM) software framework developed by SCEC (Smallet al., 2011; Gill et al., 2013) and use additional utilities providedby UCVM to facilitate the simulation process (see SimulationApproach and Models section).\par
+
+
+Crustal models that specify the lateral and depth variations of seismic velocities have been developed for southern California by synthesizing constraints from geologic studies, well logs, seismic reflection and refraction surveys, and earthquake tomography (Hauksson, 2000; Magistrale et al., 2000; Kohler et al., 2003; Süss andShaw, 2003) \par
+
+\cite{r3} compares sections through two of the SCEC models?CVM-S4 and CVM-S4.26 with 2D tomographic modelsderived from a dense collection of reflection/refraction data along the two lines of the Los Angeles region seismic experiments(LARSE), LARSE I (Lutter et al., 1999) and LARSE II (Lutter et al., 2004). The models show significant differences atthe basin scales, as well as deeper in the crust.
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig1.jpg}
+\caption{$Comparisons of P-wave velocity models along the LARSE-I (left) and LARSE-II (right) profiles. From top to bottom, we showthe 2D tomography models obtained using controlled-source travel-time data and the cross-section views through CVM-S4.26 and CVM-S4. The vertical axes on the velocity model plots have been exaggerated by a factor of 2.0 for the LARSE-I profile and a factorof 2.5 for the LARSE-II profile. The geographic maps show the locations of the LARSE-I (left) and LARSE-II (right) profiles and the epicentersof the Encino (yellow star) and the La Habra (red star) earthquakes. WF, Whittier fault; SMFZ, Sierra Madre fault zone; SAF, SanAndreas fault; SSF, Santa Susana fault; SGF, San Gabriel fault; GF, Garlock fault.$ \cite{r1}}
+\label{Figure 1}
+\end{figure}
+
+
+In CVM-S, the seismic velocities within major basins were determinedmainly from the age and depths of the sediments usingempirical relations. The latest official release is version 4(CVM-S4), which includes a geotechnical layer constrained bysonic log data (Magistrale et al., 2000), a variable-depth Mohodetermined from receiver functions (Zhu and Kanamori, 2000),and an upper-mantle velocity model from Moho to about100 km depth (Kohler et al., 2003). \par
+
+CVM-S4.26 is the 26th iterate of a full 3D tomographic(F3DT) inversion procedure (Lee et al., 2014). The procedurestarted with CVM-S4 and successively improved the fit to datasetsthat eventually included about 550,000 differential waveformmeasurements at frequencies up to 0.2 Hz, obtained fromabout 38,000 earthquake seismograms and 12,000 ambientnoiseGreen?s functions. Navigation through this nonlineariterative process involved two types of F3DT inversion methods:the AW-F3DT, which backpropagates the misfits betweenobserved and synthetic seismograms from the receivers toimage structures (Tarantola, 1984; 1988; Pratt, 1990; Trompet al., 2005), and the scattering-integral method (SI-F3DT),
+which calculates and stores the sensitivity kernels of each misfitmeasurement and solves the Gauss?Newton normal equationusing the least-squares algorithm (Zhao et al., 2005, Zhao et al.,2006; Chen et al., 2007).In each inversion step, synthetic seismograms for the updatedmodel were calculated using the Olsen (1994) fourthorderstaggered-grid finite-difference code, which has beenoptimized for massively parallel computations (Cui et al.,2010), and differential waveform measurements were made betweenthe observed seismograms and these synthetics, accountingfor the nonlinearity of the inversion. High structuralresolution was obtained by included frequency-dependent,phase-coherent measurements of various seismic phases on allthree components of ground motion. Lee et al. (2014) describeCVM-S4.26 and demonstrate its excellent fit to observed seismogramsfrom a large number of well-recorded earthquakes.The seismograms from the two Los Angeles events analyzedhere were not used in the F3DT inversion. \par
+
+
+
+
 There are currently three alternative CVM-SI.26 models which vary depending on how the perturbations were applied
 to the original model. The different versions and the overall process are described in greater detail in the GTL
 entry of the SCEC Wiki Web site (http://scec.usc.edu/scecpedia/GTL). The entire process goes beyond the scope of
@@ -83,7 +104,7 @@ everywhere, but sets the original value inside the
 basins as a floor limit.\par
 
 Here, the term basin refers to any structure with Vs \le1000
-m/s?adopting the cutoff value used by Lee et al. (2013) to build
+m/s adopting the cutoff value used by Lee et al. (2013) to build
 the starting model. In all cases, the schemes reverse the process
 used to build the starting model first, in order to recapture the
 original structures in CVM-S with values of Vs \le 1000 m/s, and
@@ -94,31 +115,74 @@ already been used to produce unstructured (etree) meshes (Taborda
 et al., 2007; Tu et al., 2003) at resolutions finer than that used in the inversion. Figure 1 shows the Vs profile
 at a depth of 50 m in an area that includes all the major basins in the Los Angeles region and its corresponding perturbations1.\par
 
-In order to evaluate CVM-SI.26,
-we need to evaluate the integration scheme and to quantify the improvement (or lack thereof) to the prediction
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig2.jpg}
+\caption{$Shear wave velocity (in m/s) o the CVM-SI26(2.2.3) model at a depth of 50 m (top) and perturbations with respect to the original CVM-S model (bottom).$ \cite{r2}}
+\label{Figure 2}
+\end{figure}
+
+
+
+\section{Methodology and Parameters:  }
+
+In order to evaluate CVM-SI.26, we need to evaluate the integration scheme and to quantify the improvement (or lack thereof) to the prediction
 of the ground motion that results from using the new integrated model. The applied method is to do this
-by performing a series of simulations using CVM-SI.26 in contrast to CVM-S for a collection of events. The 29 selected events (3.5 \le M \le5.5) are a subset of the 160 earthquakes used in the inversion process. The synthetic ground-motion results
+by performing a series of simulations using CVM-SI.26 in contrast to CVM-S for a collection of events. The 29 selected events (3.5 \le M \le 5.5) are a subset of the 160 earthquakes used in the inversion process. The synthetic ground-motion results
 from these simulations are compared with records available for these events through the Southern California
 Earthquake Data Center (www.data.scec.org). The comparisons are done quantitatively using intensity goodness-of-fit measures  of a modified version of the Anderson Goodness-of-Fit (GOF) method and by direct waveform comparisons.This method combines various comparison criteria that are meaningful to both engineers and seismologists, and has been satisfactorily used in previous validation efforts.  Simulations are done at a maximum resolution frequency higher
 than that of the inversion?in order to assess the arbitrariness of the new model?but are kept low enough (0.1 \le
 fmax \le 1 Hz) so that it facilitates the execution of as many simulations as possible. \par
 
+\cite{r3}. summarizes the simulation parameters. The etree models were built on Kraken at the National Institutefor Computational Sciences, and the ground-motion simulations were done on Blue Waters at the National Center forSupercomputing Applications. \cite{r4}.shows the mesh characteristics and simulation performance for each model and simulation.
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{table3.jpg}
+\caption{$Selected Events Chractristics$ \cite{r6}}
+\label{Table3}
+\end{figure}
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{table1.jpg}
+\caption{$Simulation Parameters$ \cite{r3}}
+\label{Table1}
+\end{figure}
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{table2.jpg}
+\caption{$Finite-Element Mesh Characteristics and Simulation Performance$ \cite{r4}}
+\label{Table2}
+\end{figure}
+
+
 The process includes gathering of data, setup of simulation models, and execution of an
-initial simulations?which is done at the High Performance Computing Center ofBlue Water which has a cluster large enough to conduct initial simulations. The The approach will consists of simulations of
+initial simulations which is done at the High Performance Computing Center ofBlue Water which has a cluster large enough to conduct initial simulations.  The approach will consists of simulations of
 multiple small- and medium-size events and quantitative validation of synthetics to assess model improvements such as those used in Taborda
 and Bielak (2013, 2014).
-This activities will require the use of parallel computing. The PI
-has extensive experience working with parallel applications for
-earthquake ground motion simulation and is one of the main developers
-of Hercules. \par
+This requires the use of parallel computing.  The following steps are taken for the process:\par
 
 Step1. Selection of events and data pre-processing: A
 total of 160 events were used in the 3D tomographic inversion
 done by Lee et al. (2013) (see Figure 4.a). We select a region
 similar to that , that is suitable for
 evaluating the effects, and select a subset of these events
-(~30). Seismograms from these events are processed prior to the simulations and filtered to be compatible to
-the same parameters of the simulations (fmax). \par
+(~30). Table 1 presents a summary of properties of each of the selected earthquake. 
+Seismograms from these events are processed prior to the simulations and filtered to be compatible to
+the same parameters of the simulations (f_max). \par
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig5.jpg}
+\caption{$Epicenter location of the 160 earth- quakes used in the 3D tomographic inversion done by Lee et al. (2013).$ \cite{r5}}
+\label{Fig5}
+\end{figure}
 
 Step 2. Simulation of events: Simulations are done for the events selected in Step 1 and have a maximum frequency 1 Hz. at this resolution, the differences
 between CVM-S and CVM-SI.26 will have a greater
@@ -140,20 +204,70 @@ the two signals for the given metric. Following our previous validation work (Ta
 we add an eleventh metric (C11) to explicitly account for the duration of the strong motion phase of the
 earthquake and combine them all using the rule: \par
 
-S = (\frac{1}{9})\times((\frac{1}{2})(C _{1}+ C_{2}) +( \frac{1}{2})(C_{3} + C_{4}) )
 
-Although there are other GOF and misfit criteria available in the literature (e.g. Kristekov?a et al., 2006,
+
+ \begin{equation}\label{z1}
+ \begin{split}
+ & S = (\frac{1}{9})\times((\frac{1}{2})(C _{1}+ C_{2}) +( \frac{1}{2})(C_{3} + C_{4}) )
+ \end{split}
+ \end{equation}
+
+
+Although there are other GOF and misfit criteria available in the literature (e.g. Kristekova et al., 2006,
 2009), we preferred the method introduced by Anderson (2004) because its metrics convey physical meaning
 to both seismologists and engineers. During the comparative validation process we may still choose other
 typical metrics such as biases of individual measurements (i.e., peak ground response) or the arrival time of
 P-waves. These additional metrics are useful because they provide signed values for the comparisons.
 
 \section{Results: }
+Here, We have the result of quantitative measures to assess the level
+of agreement between the data and the simulation, using different parameters, scores, and combinations
+proposed by Anderson (2004) with the modifications
+explained earlier. We begin by presenting the overall final
+result, and then break it down into some of its different components
+and combinations\par
+Figure ... shows the distribution
+of S1 scores, averaged between the three components of motion
+for all the validation stations in the region of interest for any of the events.\par
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig6.jpg}
+\caption{$Total score in different frequency ranges.$ \cite{r6}}
+\label{Figure 6}
+\end{figure}
+
+According to GOF criteria, when comparing two
+given signals, a score under 4 should be considered as a poor
+fit, a score from 4 to 6 as a fair fit, a score from 6 to 8 as a
+good fit, and a score above 8 as an excellent fit. Table 2 represents the average of total score of all the stations of each events. Following
+this convention, we characterize the overall agreement between
+the simulation and the records from the earthquake
+as fair, with the majority (55.7\%) of the stations in the upper
+end of this rank, yielding S1 values above 5.5, and 31.8\% of
+the stations scoring above 6, in the good-fit category.\par
+%  (the numbers need to be fixed according to our work. )
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig7.jpg}
+\caption{$Total score graph for CVMS & CVMS426 & difference.$ \cite{r7}}
+\label{Figure 7}
+\end{figure}
+
+In general, the spatial distribution of the scores does not
+suggest any direct relationship with the geology of the
+region, nor does it follow a definite pattern.\par
 
 \section{Discussion and conclusions: }
 
 The main research goal of the proposed activities is to evaluate the velocity model CVM-SI.26, which integrates the
 perturbations obtained from a 3D tomographic inversion based on the original model CVM-S.
+
+
+
+
 
 \section{Acknowledgements: }
 
