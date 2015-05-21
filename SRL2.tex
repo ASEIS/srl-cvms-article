@@ -1,0 +1,1485 @@
+%SRL Article
+
+\documentclass{gji}
+\usepackage{timet}
+
+\title[SRL\ J.\ Int.]
+  {\par1. A comparative study between CVM-SI.26 and CVMS-4 Velocity Model \par 2.The Comparison of Two Versions of Southern California Velocity Models: CVM-SI.26 and CVMS-4\par 3. Evaluation of latest Southern California Velocity Models, CVM-SI.26, through Simulation and Validation of Multiple Historical Events\par 4. A comparative study between Two Versions of Southern California Velocity Models: CVMS-4 and the latest one, CVM-SI.26, through Simulation and Validation of Multiple Historical Events }
+\author[-]
+  {B.L.N. Kennett$^1$\thanks{Pacific Region Office, GJI} \\
+  $^1$ Research School of Earth Sciences, Australian National
+    University, Canberra ACT \emph{0200}, Australia
+  }
+\date{Received 1998 December 18; in original form 1998 November 22}
+\pagerange{\pageref{firstpage}--\pageref{lastpage}}
+\volume{200}
+\pubyear{1998}
+
+%\def\LaTeX{L\kern-.36em\raise.3ex\hbox{{\small A}}\kern-.15em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}
+%\def\LATeX{L\kern-.36em\raise.3ex\hbox{{\Large A}}\kern-.15em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}
+% Authors with AMS fonts and mssymb.tex can comment out the following
+% line to get the correct symbol for Geophysical Journal International.
+\let\leqslant=\leq
+
+\newtheorem{theorem}{Theorem}[section]
+
+\begin{document}
+
+\label{firstpage}
+
+\maketitle
+
+\section{Introduction}
+
+Among the several alternatives to earthquake simulations, physics-based, deterministic approach to seismic hazard analysis (SHA) 
+have drawn significant attention from seismologists and earthquake engineers. These simulations use numerical approaches such as the finite-element (FE), finite-difference (FD), and high-order FE or spectral element methods (e.g., Frankel and Vidale, 1992; Olsen et al., 1995; Graves, 1996; Bao et al., 1998; Seriani, 1998; Käser and Dumbser, 2006). 
+With the growth of high-performance computing (HPC) facilities and applications, the implementation of those numerical methods for large scale
+three-dimensional (3D) earthquake simulations and rupture dynamics has progressed considerably  and researchers are now modeling earthquake-related processes at a level of fidelity that was thought not possible just a few years ago (e.g., Komatitsch et al., 2004; Aagaard et al., 2008; Graves, 2008; Olsen et al., 2009; Bielak et al., 2010; Cui et al., 2010). This has allowed us to deliver products of relevant application in seismology and engineering, such as families of synthetics for scenario earthquakes (e.g., Jones et al., 2008) and physics-based seismic hazard maps (e.g., Graves et al., 2011). The complexity and multi-scale nature of earthquakes, however, still poses immense challenges like the accuracy of the models which is heavily depend on the source and velocity models used as input. \par
+
+Significant advances have been made in 3D waveform tomography (e.g., Tape et al.,
+2009; Chen et al., 2007a, 2010; Lee et al., 2011; Lee and Chen 2013). In particular, Chen et al. (2007b) and Lee et
+al., (2013) have used local small and medium-sized earthquakes and ambient noise Green's functions in full 3D
+waveform tomographic inversions for the crustal structure of the Los Angeles and greater Southern California regions. Recently obtained results from a full three-dimensional (3D) tomography inversion for the crustal
+structure of the Southern California region provide perturbation datasets that are being integrated back
+into the original velocity model used as reference, SCEC Community
+Velocity Model (CVM-S), to build a new model called CVM-SI.26. These perturbations
+are, however, available only at a coarse resolution (500 m) and the scheme put forward to integrate them
+with CVM-S needs to be tested before the new model CVM-SI.26 can be used for querying information at arbitrary
+points.  \par
+
+The main goal here is to provide a better understanding of the improvements in the new model
+CVM-SI.26 when compared to the original model CVM-S4. There have been some works in this area with considering one or two earthquake ( Taborda 2013; En ju Lee 2014). This article evaluates the overall improvements obtained with the inversion and tests the correctness of the integration schemes when used at higher resolution than that of the inversion. This evaluation is done systematically through the forward simulation and validation of multiple small- and moderate-sized events using forward simulations in order to avoid biases from individual simulations. The simulations are done for a maximum frequency of 1 Hz and a minimum shear wave
+velocity of 200 m/s using Hercules, an octree-based finite-element parallel earthquake ground motion simulator.
+The earthquake ruptures are modeled assuming a kinematic point-source (double-couple) representation.
+Synthetics on about 50 stations per event are compared with data recorded during the earthquakes
+and downloaded from the Southern California Earthquake Data Center. The seismograms are processed
+and compared with the synthetics in the range of 0.1-1.0 Hz using a modified version of the Anderson Goodness-
+of-Fit (GOF) method. This method combines various comparison criteria that are meaningful to both engineers
+and seismologists, and has been satisfactorily used in previous validation efforts. We compare the regional
+distribution of the GOF results for all the earthquakes and all the models and draw conclusions on the
+consistency observed in the results. Here the results show overall higher goodness of fit scores for CVM-SI.26 model.  
+
+
+
+\section{Material Models: CVM-S4 and CVM-SI.26 }
+
+The ability to simulate seismograms depends on having accurate 3D material model. Material models, also called seismic velocity or crustal models, are a key element in the simulation process because, while being used to construct the mesh and determine the properties of mesh elements that constitute the numerical representation of the system,
+their properties determine in good part the outcome of the simulation. 
+
+Several material models have been developed and improved over the years for the regions of southern and northern California (e.g. Graves 1996b; Magistrale et al. 1996; Hauksson & Haase 1997; Magistrale et al. 2000; Kohler et al. 2003; Suss & Shaw 2003; Brocher 2005). Our focus here is on subsets of SCEC's Community Velocity Model (CVM), version 4.0, and version 4.26.  \par
+
+
+\subsection{CVM}
+
+The CVM is distributed as a Fortran code that reads points specified
+by latitude, longitude and depth, and writes out V_{p}, V_{s}, and
+density values at those points. Since the Fortran code has to
+combine data from many different associated files, its performance
+for the construction of large meshes needed for FDM and FEM
+models is poor. To overcome this problem and to unify to the maximum
+possible extent the data used for the grids and mesh generation
+processes of each modelling group, we stored a discretized version
+of the CVM (for the region of interest) in an octant tree database
+form, called "etree" (Tu et al. 2003). The etree library is known
+for its efficiency in query retrieval time and has been used successfully
+in past earthquake simulations (e.g. Akcelik et al. 2003;
+Rodgers et al. 2008). The discretization process, described in detail
+in Taborda et al. (2007), was done in a way that guarantees that
+the discretized version, hereafter called CVM-Etree, is appropriate
+for simulations up to a maximum frequency f_{max} = 1 Hz and a
+minimum shear wave velocity V_{smin}
+= 200 m/s, with at least eight
+points per wavelength (p = 8). 
+
+The resolution of the CVM-Etree
+decreases with depth while maintaining the rule eo ? (Vs/ f max)/p,
+where eo is the octant edge size. This results in a minimum octant
+at the surface with eo = 18.3 m?where there is maximum
+variability?and a maximum octant with eo = 9.2 km at 80 km in
+depth?where the crustal structure is fairly homogeneous. Fig. 5
+shows the southern California basins and other geological features
+as represented in the model, and the basins floor and shear wave
+velocity structure of the resulting CVM-Etree at various depths. \par
+
+
+\subsection{CVM-S}
+
+Crustal models that specify the lateral and depth variations of seismic velocities have been developed for southern California upon the initial model assembled by Magistrale et al. (1996), and later extended and improved by Magistrale et al. (2000) and Kohler et al. (2003). In Magistrale et al. (2000), the P-wave velocity (V_{p}) of the major southern California basins (Los Angeles basin,Ventura basin, San GabrielValley, San Fernando Valley, Chino basin, San Bernardino Valley and the Salton Trough) was determined primarily by application of empirical rules based on depths and ages estimated for four geological horizons and calibrated for southern California with data from deep boreholes. The density and Poisson's ratio (and S-wave velocity, V_{s}) were estimated from V_{p} using empirical relationships. 
+
+Outside and below the basins, CVM-S uses a 3D seismic
+tomography model (Hauksson, 2000) and an upper-mantle
+model based on on the inversion of teleseismic travel time
+residuals obtained from three temporary passive experiments and stations of the Southern California Seismic Network.(Kohler et al., 2003).
+Inside the basins, it uses data from shallow and deep boreholes,
+oil wells, gravity observations, seismic refraction surveys
+surveys,
+and other empirical rules based on the depths and ages
+estimated for a set of geological horizons.
+
+
+When queried at a particular longitude, latitude, and
+depth, CVM-S provides the values of VP, VS, and ? for the
+specific query point. In general, CVM-S operates by depth,
+in reference to the free surface, but does not provide information
+about the topography. We ignore the free-surface
+elevation and model the region in the simulation domain
+by flattening the topography (see squashed topography in
+Aagaard et al., 2008). We access the information stored in
+CVM-S through the Unified Community Velocity Model
+(UCVM) software framework developed by SCEC (Small
+et al., 2011; Gill et al., 2013) and use additional utilities provided
+by UCVM to facilitate the simulation process (see Simulation
+Approach and Models section).\par
+
+
+
+
+
+\subsection{CVM-S4}
+
+The latest release by SCEC, CVM version 4.0, has a new San Bernardino Valley basement, based on recent inversions of gravity data confirmed by comparison to a seismic reflection line. The depth to basement of the Salton Trough was extended to the northern Mexican territory and redefined by a combination of seismic refraction surveys, inversion
+of gravity observations, surface geology, and boreholes. CVM version 4.0 also has a new V p-density relationship based on density
+measurements from oil well samples in the Los Angeles basin and the San Gabriel Valley, geotechnical boreholes throughout southern
+California, and 12 oil wells along the Los Angeles Region Seismic Experiment lines. \par
+
+
+
+
+
+
+
+\cite{r3} compares sections through two of the SCEC models?CVM-S4 and CVM-S4.26 with 2D tomographic models
+derived from a dense collection of reflection/refraction data along the two lines of the Los Angeles region seismic experiments
+(LARSE), LARSE I (Lutter et al., 1999) and LARSE II (Lutter et al., 2004). The models show significant differences at
+the basin scales, as well as deeper in the crust.
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig1.jpg}
+\caption{$Comparisons of P-wave velocity models along the LARSE-I (left) and LARSE-II (right) profiles. From top to bottom, we show
+the 2D tomography models obtained using controlled-source travel-time data and the cross-section views through CVM-S4.26 and CVM-S4. The vertical axes on the velocity model plots have been exaggerated by a factor of 2.0 for the LARSE-I profile and a factor
+of 2.5 for the LARSE-II profile. The geographic maps show the locations of the LARSE-I (left) and LARSE-II (right) profiles and the epicenters
+of the Encino (yellow star) and the La Habra (red star) earthquakes. WF, Whittier fault; SMFZ, Sierra Madre fault zone; SAF, San
+Andreas fault; SSF, Santa Susana fault; SGF, San Gabriel fault; GF, Garlock fault.$ \cite{r1}}
+\label{Figure 1}
+\end{figure}
+
+
+In CVM-S, the seismic velocities within major basins were determined
+mainly from the age and depths of the sediments using
+empirical relations. The latest official release is version 4
+(CVM-S4), which includes a geotechnical layer constrained by
+sonic log data (Magistrale et al., 2000), a variable-depth Moho
+determined from receiver functions (Zhu and Kanamori, 2000),
+and an upper-mantle velocity model from Moho to about
+100 km depth (Kohler et al., 2003). \par
+
+CVM-S4.26 is the 26th iterate of a full 3D tomographic
+(F3DT) inversion procedure (Lee et al., 2014). The procedure
+started with CVM-S4 and successively improved the fit to datasets
+that eventually included about 550,000 differential waveform
+measurements at frequencies up to 0.2 Hz, obtained from
+about 38,000 earthquake seismograms and 12,000 ambientnoise
+Green?s functions. Navigation through this nonlinear
+iterative process involved two types of F3DT inversion methods:
+the AW-F3DT, which backpropagates the misfits between
+observed and synthetic seismograms from the receivers to
+image structures (Tarantola, 1984; 1988; Pratt, 1990; Tromp
+et al., 2005), and the scattering-integral method (SI-F3DT),
+which calculates and stores the sensitivity kernels of each misfit
+measurement and solves the Gauss?Newton normal equation
+using the least-squares algorithm (Zhao et al., 2005, Zhao et al.,
+2006; Chen et al., 2007).
+In each inversion step, synthetic seismograms for the updated
+model were calculated using the Olsen (1994) fourthorder
+staggered-grid finite-difference code, which has been
+optimized for massively parallel computations (Cui et al.,
+2010), and differential waveform measurements were made between
+the observed seismograms and these synthetics, accounting
+for the nonlinearity of the inversion. High structural
+resolution was obtained by included frequency-dependent,
+phase-coherent measurements of various seismic phases on all
+three components of ground motion. Lee et al. (2014) describe
+CVM-S4.26 and demonstrate its excellent fit to observed seismograms
+from a large number of well-recorded earthquakes.
+The seismograms from the two Los Angeles events analyzed
+here were not used in the F3DT inversion. \par
+
+
+
+
+There are currently three alternative CVM-SI.26 models which vary depending on how the perturbations were applied
+to the original model. The different versions and the overall process are described in greater detail in the GTL
+entry of the SCEC Wiki Web site (http://scec.usc.edu/scecpedia/GTL). The entire process goes beyond the scope of
+the proposed research because the ultimate goal is, not only to incorporate the inversion results, but also to extend
+the implementation to include geotechnical layers (GTL) used in
+other community models (e.g., CVM-H). I refer here only to the
+models that reconcile the inversion perturbations?as a first step
+in that process, and use the same nomenclature employed in the
+Web site. These models are: \par
+
+(2.2.1) This model applies an integration scheme in which
+negative perturbations are only used outside the basins, and
+positive perturbations are used everywhere.\par
+
+(2.2.2) This scheme applies negative perturbations only if
+outside the basins, and disregards positive perturbations
+when inside the basins.\par
+
+(2.2.3) This scheme applies both negative and positive perturbations
+everywhere, but sets the original value inside the
+basins as a floor limit.\par
+
+Here, the term basin refers to any structure with Vs \le1000
+m/s adopting the cutoff value used by Lee et al. (2013) to build
+the starting model. In all cases, the schemes reverse the process
+used to build the starting model first, in order to recapture the
+original structures in CVM-S with values of Vs \le 1000 m/s, and
+apply the perturbations later (as described). These schemes have
+been implemented in the SCEC Unified Community Velocity
+Model (UCVM) software framework (Gill et al. 2013), which has
+already been used to produce unstructured (etree) meshes (Taborda
+et al., 2007; Tu et al., 2003) at resolutions finer than that used in the inversion. Figure 1 shows the Vs profile
+at a depth of 50 m in an area that includes all the major basins in the Los Angeles region and its corresponding perturbations1.\par
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig2.jpg}
+\caption{$Shear wave velocity (in m/s) o the CVM-SI26(2.2.3) model at a depth of 50 m (top) and perturbations with respect to the original CVM-S model (bottom).$ \cite{r2}}
+\label{Figure 2}
+\end{figure}
+
+
+\section{Methodology and Parameters:  }
+
+In order to evaluate CVM-SI.26, we need to evaluate the integration scheme and to quantify the improvement (or lack thereof) to the prediction
+of the ground motion that results from using the new integrated model. The applied method is to do this
+by performing a series of simulations using CVM-SI.26 in contrast to CVM-S for a collection of events. The 29 selected events (3.5 \le M \le 5.5) are a subset of the 160 earthquakes used in the inversion process. The synthetic ground-motion results
+from these simulations are compared with records available for these events through the Southern California
+Earthquake Data Center (www.data.scec.org). The comparisons are done quantitatively using intensity goodness-of-fit measures  of a modified version of the Anderson Goodness-of-Fit (GOF) method and by direct waveform comparisons.This method combines various comparison criteria that are meaningful to both engineers and seismologists, and has been satisfactorily used in previous validation efforts.  Simulations are done at a maximum resolution frequency higher
+than that of the inversion?in order to assess the arbitrariness of the new model?but are kept low enough (0.1 \le
+fmax \le 1 Hz) so that it facilitates the execution of as many simulations as possible. \par
+
+\cite{r3}. summarizes the simulation parameters. The etree models were built on Kraken at the National Institute
+for Computational Sciences, and the ground-motion simulations were done on Blue Waters at the National Center for
+Supercomputing Applications. \cite{r4}.shows the mesh characteristics and simulation performance for each model and simulation.
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{table3.jpg}
+\caption{$Selected Events Chractristics$ \cite{r6}}
+\label{Table3}
+\end{figure}
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{table1.jpg}
+\caption{$Simulation Parameters$ \cite{r3}}
+\label{Table1}
+\end{figure}
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{table2.jpg}
+\caption{$Finite-Element Mesh Characteristics and Simulation Performance$ \cite{r4}}
+\label{Table2}
+\end{figure}
+
+
+The process includes gathering of data, setup of simulation models, and execution of an
+initial simulations which is done at the High Performance Computing Center ofBlue Water which has a cluster large enough to conduct initial simulations.  The approach will consists of simulations of
+multiple small- and medium-size events and quantitative validation of synthetics to assess model improvements such as those used in Taborda
+and Bielak (2013, 2014).
+This requires the use of parallel computing.  The following steps are taken for the process:\par
+
+Step1. Selection of events and data pre-processing: A
+total of 160 events were used in the 3D tomographic inversion
+done by Lee et al. (2013) (see Figure 4.a). We select a region
+similar to that , that is suitable for
+evaluating the effects, and select a subset of these events
+(~30). Table 1 presents a summary of properties of each of the selected earthquake. 
+Seismograms from these events are processed prior to the simulations and filtered to be compatible to
+the same parameters of the simulations (f_max). \par
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig5.jpg}
+\caption{$Epicenter location of the 160 earth- quakes used in the 3D tomographic inversion done by Lee et al. (2013).$ \cite{r5}}
+\label{Fig5}
+\end{figure}
+
+Step 2. Simulation of events: Simulations are done for the events selected in Step 1 and have a maximum frequency 1 Hz. at this resolution, the differences
+between CVM-S and CVM-SI.26 will have a greater
+impact on the ground motion?which we seek to quantify in
+terms of prediction improvements. \par
+
+Step 3. Post-processing of results and  validation:
+Results from the simulations obtained in step 2
+will be compared with the data collected and processed in
+Step 1. \par
+
+Validation Criteria: \par
+For the validation of the different simulations we will use the GOF criterion proposed by Anderson (2004).
+This criterion uses ten individual parameters (Ci): Arias duration (C1), energy duration (C2), Arias intensity
+(C3), energy integral (C4), peak acceleration (C5), peak velocity (C6), peak displacement (C7), response
+spectrum (C8), Fourier amplitude spectrum (C9), and cross correlation (C10). Each parameter is scaled
+such that it yields a score varying from 0 to 10, where a score of 10 corresponds to a perfect match between
+the two signals for the given metric. Following our previous validation work (Taborda and Bielak, 2013b),
+we add an eleventh metric (C11) to explicitly account for the duration of the strong motion phase of the
+earthquake and combine them all using the rule: \par
+
+
+
+ \begin{equation}\label{z1}
+ \begin{split}
+ & S = (\frac{1}{9})\times((\frac{1}{2})(C _{1}+ C_{2}) +( \frac{1}{2})(C_{3} + C_{4}) )
+ \end{split}
+ \end{equation}
+
+
+Although there are other GOF and misfit criteria available in the literature (e.g. Kristekova et al., 2006,
+2009), we preferred the method introduced by Anderson (2004) because its metrics convey physical meaning
+to both seismologists and engineers. During the comparative validation process we may still choose other
+typical metrics such as biases of individual measurements (i.e., peak ground response) or the arrival time of
+P-waves. These additional metrics are useful because they provide signed values for the comparisons.
+
+\section{Results: }
+Here, We have the result of quantitative measures to assess the level
+of agreement between the data and the simulation, using different parameters, scores, and combinations
+proposed by Anderson (2004) with the modifications
+explained earlier. We begin by presenting the overall final
+result, and then break it down into some of its different components
+and combinations\par
+Figure ... shows the distribution
+of S1 scores, averaged between the three components of motion
+for all the validation stations in the region of interest for any of the events.\par
+
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig6.jpg}
+\caption{$Total score in different frequency ranges.$ \cite{r6}}
+\label{Figure 6}
+\end{figure}
+
+According to GOF criteria, when comparing two
+given signals, a score under 4 should be considered as a poor
+fit, a score from 4 to 6 as a fair fit, a score from 6 to 8 as a
+good fit, and a score above 8 as an excellent fit. Table 2 represents the average of total score of all the stations of each events. Following
+this convention, we characterize the overall agreement between
+the simulation and the records from the earthquake
+as fair, with the majority (55.7\%) of the stations in the upper
+end of this rank, yielding S1 values above 5.5, and 31.8\% of
+the stations scoring above 6, in the good-fit category.\par
+%  (the numbers need to be fixed according to our work. )
+
+\begin{figure} [!h]
+\centering
+\includegraphics[scale=1]{fig7.jpg}
+\caption{$Total score graph for CVMS & CVMS426 & difference.$ \cite{r7}}
+\label{Figure 7}
+\end{figure}
+
+In general, the spatial distribution of the scores does not
+suggest any direct relationship with the geology of the
+region, nor does it follow a definite pattern.\par
+
+\section{Discussion and conclusions: }
+
+The main research goal of the proposed activities is to evaluate the velocity model CVM-SI.26, which integrates the
+perturbations obtained from a 3D tomographic inversion based on the original model CVM-S.
+
+
+
+
+
+\section{Acknowledgements: }
+
+This work was supported by the ? and the Southern California Earthquake Center through ?
+
+
+\section{Using the GJI class file}
+
+If the file \verb"gji.cls" is not already in the appropriate
+system directory for \LaTeX\ files, either arrange for it to be
+put there, or copy it to your working directory. The class file
+and related material, such as this guide, can be accessed via the
+journal web-site  at
+http://www.blackwellpublishing.com/journals/gji under {\em Author
+Guidelines}.
+
+The GJI document class is implemented as a complete document class, {\em
+not\/} a document class option. In   order to use the GJI style, replace
+\verb"article" by
+\verb"gji" in the
+\verb"\documentclass" command at the beginning of your document:
+\begin{verbatim}
+\documentclass{article}
+\end{verbatim}
+is replaced by
+\begin{verbatim}
+\documentclass{gji}
+\end{verbatim}
+In general, the following standard document class options should {\em
+not\/} be used with the GJI style:
+\begin{enumerate}
+  \item \texttt{10pt}, \texttt{11pt}, \texttt{12pt} -- unavailable;
+  \item \texttt{twoside} (no associated style file) --
+     \texttt{twoside} is the default;
+  \item \texttt{fleqn}, \texttt{leqno}, \texttt{titlepage} --
+        should not be used (\verb"fleqn" is already incorporated into
+        the GJI style);
+  \item \texttt{twocolumn} -- is not necessary as it is the default style.
+\end{enumerate}
+
+In \LaTeX2e the use of postscript fonts and the inclusion of non-standard
+options is carried out through the \verb"\usepackage" command, rather than
+as options as in earlier versions.  Thus the Times font can be used for
+text by including
+\begin{verbatim}
+\usepackage{times}
+\end{verbatim}
+on the line immediately after the \verb"\documentclass". If necessary,
+\texttt{ifthen} and \texttt{bezier} can be included as packages.
+
+The GJI class file has been designed to operate with the standard
+version of \verb"lfonts.tex" that is distributed as part of \LaTeX
+. If you have access to the source file for this guide,
+\verb"gjilguid2e.tex", attempt to typeset it.  If you find font
+problems you might investigate whether a non-standard version of
+\verb"lfonts.tex" has been installed in your system.
+
+\subsection{Additional document class options}\label{classoptions}
+
+The following additional class options are available with the GJI style:
+\begin{description}
+  \item \texttt{onecolumn} -- to be used \textit{only} when two-column output
+        is unable to accommodate long equations;
+  \item \texttt{landscape} -- for producing wide figures and tables which
+        need to be included in landscape format (i.e.\ sideways) rather
+        than portrait (i.e.\ upright). This option is described below.
+  \item \texttt{doublespacing} -- this will double-space your
+        article by setting \verb"\baselinestretch" to 2.
+  \item \texttt{referee} -- 12/20pt text size, single column,
+        designed for submission of papers.
+  \item \texttt{mreferee} -- 11/17pt text size, single column
+        designed for submission of papers with mathematical content.
+  \item \texttt{camera} -- designed for use with computer modern fonts to
+        produce a closer representation of GJI style for camera
+        ready material.
+  \item \texttt{galley} -- no running heads, no attempt to align
+        the bottom of columns.
+\end{description}
+
+
+\subsection{Landscape pages}
+
+If a table or illustration is too wide to fit the standard measure, it
+must be turned, with its caption, through 90 degrees anticlockwise.
+Landscape illustrations and/or tables cannot be produced directly
+using the GJI style file because \TeX\ itself cannot turn the
+page, and not all device drivers provide such a facility.
+The following procedure can be used to produce such pages.
+\begin{enumerate}
+  \item Use the \verb"table*" or \verb"figure*" environments in your
+        document to create the space for your table or figure on the
+        appropriate page of your document. Include an empty
+        caption in this environment to ensure the correct
+        numbering of subsequent tables and figures. For instance, the
+        following code prints a page with the running head, a message
+        half way down and the figure number towards the bottom. If you
+        are including a plate, the running headline is different, and you
+        need to key in the three lines which are marked with \verb"% **",
+        with an appropriate headline.
+\begin{verbatim}
+% ** \clearpage
+% ** \thispagestyle{plate}
+% ** \plate{Opposite p.~812, GJI, \textbf{135}}
+\begin{figure*}
+  \vbox to220mm{\vfil Landscape figure to
+                go here. \vfil}
+  \caption{}
+  \label{landfig}
+\end{figure*}
+\end{verbatim}
+\item Create a separate document with the corresponding document style
+      but also with the \verb"landscape" document style option, and
+      include the \verb"\pagestyle" command, as follows:
+\begin{verbatim}
+\documentclass[landscape]{gji}
+\pagestyle{empty}
+\end{verbatim}
+  \item Include your complete tables and illustrations (or space for
+        these) with captions using the \verb"table*" and \verb"figure*"
+        environments.
+  \item Before each float environment, use the
+        \verb"\setcounter" command to ensure the correct numbering of
+        the caption. For example,
+\begin{verbatim}
+\setcounter{table}{0}
+\begin{table*}
+ \begin{minipage}{115mm}
+ \caption{Images of global seismic tomography.}
+ \label{tab1}
+ \begin{tabular}{@{}llllcll}
+   :
+ \end{tabular}
+ \end{minipage}
+\end{table*}
+\end{verbatim}
+The corresponding example for a figure would be:
+\begin{verbatim}
+\clearpage
+\setcounter{figure}{12}
+\begin{figure*}
+ \vspace{144mm}
+ \caption{Travel times for regional model.}
+ \label{fig13}
+\end{figure*}
+\end{verbatim}
+\end{enumerate}
+
+
+\section{Additional facilities}
+
+In addition to all the standard \LaTeX\ design elements, the GJI style
+includes the following features.
+\begin{enumerate}
+  \item Extended commands for specifying a short version of the title and
+        author(s) for the running headlines;
+  \item A \verb"summary" environment to produce a suitably indented
+        Summary
+  \item An \verb"abstract" environment which produces the GJI style of
+        Summary
+  \item A \verb"keywords" environment and a \verb"\nokeywords" command;
+  \item Use of the \verb"description" environment for unnumbered lists.
+  \item A starred version of the \verb"\caption" command to produce
+        captions for continued figures or tables.
+ \end{enumerate}
+ In general, once you have used the additional \verb"gji.cls" facilities
+in your document, do not process it with a standard \LaTeX\ style file.
+
+\subsection{Titles and author's name}
+
+In the GJI style, the title of the article and the author's name (or
+authors' names) are used both at the beginning of the article for the
+main title and throughout the article as running headlines at the top
+of every page. The title is used on odd-numbered pages (rectos) and the
+author's name appears on even-numbered pages (versos). Although the
+main heading can run to several lines of text, the running headline
+must be a single line ($\leqslant 45$ characters). Moreover, the main
+heading can also incorporate new line commands (e.g. \verb"\\") but
+these are not acceptable in a running headline. To enable you to
+specify an alternative short title and an alternative short author's
+name, the standard \verb"\title" and \verb"\author" commands have been
+extended to take an optional argument to be used as the running
+headline. The running headlines for this guide were produced using the
+following code:
+\begin{verbatim}
+\title[Geophys.\ J.\ Int.:
+       \LaTeXe\ Guide for Authors]
+  {Geophysical Journal International:
+   \LaTeXe\ style guide for authors}
+\end{verbatim}
+and
+\begin{verbatim}
+\author[B.L.N. Kennett]
+   {B.L.N. Kennett$^1$
+  \thanks{Pacific Region Office, GJI} \\
+  $^{1}$Research School of Earth Sciences,
+    Australian National University,
+    Canberra ACT \emph{0200}, Australia
+  }
+\end{verbatim}
+The \verb"\thanks" note produces a footnote to the title or author.
+
+\subsection{Key words and Summary}
+
+At the beginning of your article, the title should be generated in the
+usual way using the \verb"\maketitle" command. Immediately following
+the title you should include a Summary followed by a list of key
+words. The summary should be enclosed within an \verb"summary"
+environment, followed immediately by the key words enclosed in a
+\verb"keywords" environment. For example, the titles for this guide
+were produced by the following source:
+\begin{verbatim}
+\maketitle
+\begin{summary}
+ This guide is for authors who are preparing
+ papers for \textit{Geophysical Journal
+ International} using the \LaTeXe\ document
+ preparation system and the GJI style file.
+\end{summary}
+\begin{keywords}
+ \LaTeXe\ -- class files: \verb"gji.cls"\ --
+ sample text -- user guide.
+\end{keywords}
+
+\section{Introduction}
+  :
+\end{verbatim}
+The heading `\textbf{Key words}' is included automatically and the key
+words are followed by vertical space. If, for any reason, there are no
+key words, you should insert the \verb"\nokeywords" command immediately
+after the end of the \verb"summary" or \verb"abstract" environment. This
+ensures that the   vertical space after the abstract and/or title is
+correct and that any
+\verb"thanks" acknowledgments are correctly included at the bottom of
+the first column. For example,
+\begin{verbatim}
+\maketitle
+\begin{abstract}
+  :
+\end{abstract}
+\nokeywords
+
+\section{Introduction}
+  :
+\end{verbatim}
+
+Note that the \verb"summary" and \verb"abstract" environments have the same
+effect for the documentclass \verb"gji.cls"
+
+\subsection{Lists}
+
+The GJI style provides numbered lists using the \verb"enumerate"
+environment and unnumbered lists using the \verb"description"
+environment with an empty label. Bulleted lists are not part of the GJI
+style and the \verb"itemize" environment should not be used.
+
+The enumerated list numbers each list item with roman numerals:
+\begin{enumerate}
+  \item first item
+  \item second item
+  \item third item
+\end{enumerate}
+Alternative numbering styles can be achieved by inserting a
+redefinition of the number labelling command after the
+\verb"\begin{enumerate}". For example, the list
+\begin{enumerate}
+\renewcommand{\theenumi}{(\arabic{enumi})}
+  \item first item
+  \item second item
+  \item etc\ldots
+\end{enumerate}
+was produced by:
+\begin{verbatim}
+\begin{enumerate}
+ \renewcommand{\theenumi}{(\arabic{enumi})}
+  \item first item
+       :
+\end{enumerate}
+\end{verbatim}
+Unnumbered lists are provided using the \verb"description" environment.
+For example,
+\begin{description}
+  \item First unnumbered item which has no label and is indented from
+        the left margin.
+  \item Second unnumbered item.
+  \item Third unnumbered item.
+\end{description}
+was produced by,
+\begin{verbatim}
+\begin{description}
+ \item First unnumbered item...
+ \item Second unnumbered item.
+ \item Third unnumbered item.
+\end{description}
+\end{verbatim}
+
+\subsection{Captions for continued figures and tables}
+
+The \verb"\caption*" command may be used to produce a caption with the
+same number as the previous caption (for the corresponding type of
+float). For instance, if a very large table does not fit on one page,
+it must be split into two floats; the second float should use the
+\verb"caption*" command with a suitable caption:
+\begin{verbatim}
+\begin{table}
+ \caption*{-- \textit{continued}}
+  \begin{tabular}{@{}lccll}
+  :
+  \end{tabular}
+\end{table}
+\end{verbatim}
+
+ \begin{figure}
+     \vspace{5.5cm}
+     \caption{An example figure in which space has been
+              left for the artwork.}
+     \label{sample-figure}
+  \end{figure}
+
+\section[]{Some guidelines for using\\* standard facilities}
+
+The following notes may help you achieve the best effects with the GJI
+style file.
+
+\subsection{Sections}
+
+\LaTeX\ provides five levels of section headings and they are all
+defined in the GJI style file:
+\begin{description}
+  \item \verb"\section"
+  \item \verb"\subsection"
+  \item \verb"\subsubsection"
+  \item \verb"\paragraph"
+  \item \verb"\subparagraph"
+\end{description}
+Section numbers are given for section, subsection, subsubsection
+and paragraph headings.  Section headings are automatically converted to
+upper case; if you need any other style, see the example in section~\ref{headings}.
+
+If you find your section/subsection (etc.)\ headings are wrapping round,
+you must use the \verb"\\*" to end individual lines and include the
+optional argument \verb"[]" in the section command. This ensures that
+the turnover is flushleft.
+
+\subsection{Illustrations (or figures)}
+
+\begin{figure*}
+ \vspace{5.5cm}
+     \caption{An example figure spanning two-columns
+             in which space has been left for the artwork.}
+     \label{twocol-figure}
+\end{figure*}
+
+The GJI style will cope with positioning of your illustrations and
+you should not use the positional qualifiers on the
+\verb"figure" environment which would override these decisions. See
+`Instructions for Authors' in {\em Geophysical Journal International\/}
+for submission of
+artwork. Figure captions should be below the figure itself, therefore
+the \verb"\caption" command should appear after the figure or space
+left for an illustration. For example, Fig.~\ref{sample-figure} is
+produced using the following commands:
+\begin{verbatim}
+\begin{figure}
+ \vspace{5.5cm}
+ \caption{An example figure in which space has
+          been left for the artwork.}
+ \label{sample-figure}
+\end{figure}
+\end{verbatim}
+
+Where a figure needs to span two-columns the \verb"figure*" environment
+should be used as in  Fig.~\ref{twocol-figure} using the following commands
+\begin{verbatim}
+\begin{figure*}
+ \vspace{5.5cm}
+   \caption{An example figure spanning two-columns
+     in which space has been left for the artwork.}
+   \label{twocol-figure}
+\end{figure*}
+\end{verbatim}
+
+\subsection{Tables}
+
+The GJI style will cope with positioning of your tables and you
+should not use the positional qualifiers on the
+\verb"table" environment which would override these decisions. Table
+captions should be at the top, therefore the \verb"\caption" command
+should appear before the body of the table.
+
+The \verb"tabular" environment can be used to produce tables with
+single horizontal rules, which are allowed, if desired, at the head and
+foot only. This environment has been modified for the GJI style in the
+following ways:
+\begin{enumerate}
+  \item additional vertical space is inserted on either side of a rule;
+  \item vertical lines are not produced.
+\end{enumerate}
+Commands to redefine quantities such as \verb"\arraystretch" should be
+omitted. For example, Table~\ref{symbols} is produced using the
+following commands.
+\begin{table}
+ \caption{Seismic velocities at major discontinuities.}
+ \label{symbols}
+ \begin{tabular}{@{}lcccccc}
+  Class & depth & radius
+        & $\alpha _{-}$ & $\alpha _{+}$
+        & $\beta _{-}$ & $\beta _{+}$ \\
+  ICB & 5154 & 1217 & 11.091 & 10.258
+        & 3.438 &  0. \\
+  CMB & 2889 & 3482 & 8.009 & 13.691
+        & 0. & 7.301 \\
+ \end{tabular}
+
+ \medskip
+ The ICB represents the boundary between the inner and outer cores and
+the CMB the boundary between the core and the mantle.  Velocities with
+subscript $-$ are evaluated just below the discontinuity and
+those with subscript $+$ are evaluated just above the discontinuity.
+\end{table}
+\begin{verbatim}
+\begin{table}
+ \caption{Seismic velocities at major
+          discontinuities.}
+ \label{symbols}
+ \begin{tabular}{@{}lcccccc}
+  Class & depth & radius
+        & $\alpha _{-}$ & $\alpha _{+}$
+        & $\beta _{-}$ & $\beta _{+}$ \\
+  ICB & 5154 & 1217 & 11.091 & 10.258
+        & 3.438 &  0. \\
+  CMB & 2889 & 3482 & 8.009 & 13.691
+        & 0. & 7.301 \\
+ \end{tabular}
+
+ \medskip
+ The ICB represents the boundary ...
+... evaluated just above the discontinuity.
+
+\end{table}
+\end{verbatim}
+
+If you have a table that is to extend over two columns, you need to use
+\verb"table*" in a minipage environment, i.e., you can say
+\begin{verbatim}
+\begin{table*}
+\begin{minipage}{80mm}
+ \caption{Caption which will wrap round to the
+          width of the minipage environment.}
+ \begin{tabular}{%
+      :
+ \end{tabular}
+\end{minipage}
+\end{table*}
+\end{verbatim}
+The width of the minipage should more or less be the width of your table,
+so you can only guess on a value on the first pass. The value will have to
+be adjusted when your article is finally typeset, so don't worry
+about making it the exact size.
+
+\subsection{Running headlines}
+
+As described above, the title of the article and the author's name (or
+authors' names) are used as running headlines at the top of every page.
+The headline on right pages can list up to three names; for more than
+three use et~al. The \verb"\pagestyle" and \verb"\thispagestyle"
+commands should {\em not\/} be used. Similarly, the commands
+\verb"\markright" and \verb"\markboth" should not be necessary.
+
+\subsection{Typesetting mathematics}
+
+\subsubsection{Displayed mathematics}
+
+The GJI style will set displayed mathematics flush with the left margin,
+provided that you use the \LaTeX\ standard of open and closed square brackets
+as delimiters. The equation
+\[
+ \sum_{i=1}^p \lambda_i =
+{\mathrm{trace}}(\mathbf{S})
+\]
+was typeset in the GJI style using the commands
+\begin{verbatim}
+\[
+ \sum_{i=1}^p \lambda_i =
+{\mathrm{trace}}(\mathbf{S})
+\]
+\end{verbatim}
+This correct positioning should be compared with that for
+the following centred equation,
+$$ \alpha_{j+1} > \bar{\alpha}+ks_{\alpha} $$
+which was (wrongly) typeset using double dollars as follows:
+\begin{verbatim}
+$$ \alpha_{j+1} > \bar{\alpha}+ks_{\alpha} $$
+\end{verbatim}
+Note that \verb"\mathrm" will produce a roman character
+in math mode.
+
+For numbered equations use the \verb"equation" and \verb"eqnarray"
+environments which will give the correct positioning.
+If equation numbering by section is required the command
+\verb"\eqsecnum" should appear after \verb"begin{document}"
+at the head of the file.
+
+\subsubsection{Bold math italic}\label{boldmathitalic}
+
+The class file provides a font \verb"\mitbf" defined as:
+\begin{verbatim}
+\newcommand{\mitbf}[1]{
+  \hbox{\mathversion{bold}$#1$}}
+\end{verbatim}
+Which can be used as follows, to typset the equation
+\begin{equation}
+  d(\mitbf{{s_{t_u}}}) = \langle [RM(\mitbf{{x_y}}
+  + \mitbf{{s_t}}) - RM(\mitbf{{x_y}})]^2 \rangle
+\end{equation}
+the input should be
+\begin{verbatim}
+\begin{equation}
+  d(\mitbf{{s_{t_u}}}) = \langle [RM(\mitbf{{x_y}}
+  + \mitbf{{s_t}}) - RM(\mitbf{{x_y}})]^2 \rangle
+\end{equation}
+\end{verbatim}
+
+If you are using version 1 of the New Font Selection Scheme, you may
+have some messages in your log file that read something like ``Warning:
+Font/shape `cmm/b/it' in size~\hbox{$< \!\! 9 \!\! >$} not available
+on input line 649. Warning: Using external font `cmmi9' instead on input
+line 649.'' If you have such messages, your system will have substituted
+math italic characters where you wanted bold math italic ones: you
+are advised to upgrade to version 2.
+
+
+\subsubsection{Bold Greek}\label{boldgreek}
+
+To get bold Greek you use the same
+method as for bold math italic. Thus you can input
+\begin{verbatim}
+\[ \mitbf{{\alpha_{\mu}}} =
+\mitbf{\Theta} \alpha. \]
+\end{verbatim}
+to typeset the equation
+\[ \mitbf{{\alpha_{\mu}}} = \mitbf{\Theta} \alpha . \]
+
+
+\subsection{Points to note in formatting text}\label{formtext}
+
+A number of text characters require special attention
+so that \LaTeX\ can properly format a file.
+
+The following characters must be preceded by a
+backslash or \LaTeX\ will interpret them as commands:
+\begin{quote}
+~~~~~~~~~\$~~~\&~~~\%~~~\#~~~\_~~~\{~~~and~~~\}
+\end{quote}
+must be typed
+\begin{center}
+\begin{quote}
+~~~~~~\verb"\$"~~~\verb"\&"~~~\verb"\%"~~~\verb"\#"
+~~~\verb"\_"~~~\verb"\{"~~~and~~~\verb"\}".
+\end{quote}
+\end{center}
+
+\LaTeX\ interprets all double quotes as closing quotes.
+Therefore quotation marks must be typed as pairs of
+opening and closing single quotes, for example,
+\texttt{ ``quoted text.''}
+
+Note that \LaTeX\ will not recognize greater than or
+less than symbols unless they are typed within math
+commands (\verb"$>$" or \verb"$<$").
+
+\subsubsection{Special symbols}
+
+The macros for the special symbols in Tables~\ref{mathmode}
+and~\ref{anymode}
+have been taken from the Springer Verlag `Astronomy and Astrophysics'
+design, with their permission. They are directly compatible and use the
+same macro names.
+These symbols will work in all text sizes, but are only guaranteed to work
+in text and displaystyles. Some of the symbols will not get any smaller
+when they are used in sub- or superscripts, and will therefore be
+displayed at the wrong size. Don't worry about this as the typesetter
+will be able to sort this out.
+%
+\begin{table*}
+\begin{minipage}{106mm}
+\caption{Special symbols which can only be used in math mode.}
+\label{mathmode}
+\begin{tabular}{@{}llllll}
+Input & Explanation & Output & Input & Explanation & Output\\
+\hline
+\verb"\la"     & less or approx       & $\la$     &
+  \verb"\ga"     & greater or approx    & $\ga$\\[2pt]
+\verb"\getsto" & gets over to         & $\getsto$ &
+  \verb"\cor"    & corresponds to       & $\cor$\\[2pt]
+\verb"\lid"    & less or equal        & $\lid$    &
+  \verb"\gid"    & greater or equal     & $\gid$\\[2pt]
+\verb"\sol"    & similar over less    & $\sol$    &
+  \verb"\sog"    & similar over greater & $\sog$\\[2pt]
+\verb"\lse"    & less over simeq      & $\lse$    &
+  \verb"\gse"    & greater over simeq   & $\gse$\\[2pt]
+\verb"\grole"  & greater over less    & $\grole$  &
+  \verb"\leogr"  & less over greater    & $\leogr$\\[2pt]
+\verb"\loa"    & less over approx     & $\loa$    &
+  \verb"\goa"    & greater over approx  & $\goa$\\
+\hline
+\end{tabular}
+\end{minipage}
+\end{table*}
+%
+\begin{table*}
+\begin{minipage}{115mm}
+\caption{Special symbols which don't have to be
+used in math mode.}
+\label{anymode}
+\begin{tabular}{@{}llllll}
+Input & Explanation & Output & Input & Explanation & Output\\
+\hline
+\verb"\sun"      & sun symbol            & $\sun$     &
+  \verb"\earth"     & earth symbol         & $\earth$   \\[2pt]
+\verb"\degr"     & degree                &$\degr$     &
+  \verb"\micron"   & \micron               & \micron    \\[2pt]
+\verb"\diameter" & diameter              & \diameter  &
+  \verb"\sq"       & square                & \squareforqed\\[2pt]
+\verb"\fd"       & fraction of day       & \fd        &
+  \verb"\fh"       & fraction of hour      & \fh\\[2pt]
+\verb"\fm"       & fraction of minute    & \fm        &
+  \verb"\fs"       & fraction of second    & \fs\\[2pt]
+\verb"\fdg"      & fraction of degree    & \fdg       &
+  \verb"\fp"       & fraction of period    & \fp\\[2pt]
+\verb"\farcs"    & fraction of arcsecond & \farcs     &
+  \verb"\farcm"    & fraction of arcmin    & \farcm\\[2pt]
+\verb"\arcsec"   & arcsecond             & \arcsec    &
+  \verb"\arcmin"   & arcminute             & \arcmin\\
+
+\hline
+\end{tabular}
+\end{minipage}
+\end{table*}
+
+
+The command \verb"\chemical" is provided to set chemical species with
+an even level for subscripts (not produced in standard mathematics mode).
+Thus \verb"\chemical{Fe_{2}^{2+}Cr_{2}O_{4}}" will produce
+\chemical{Fe_{2}^{2+}Cr_{2}O_{4}}.
+
+
+\subsection{Bibliography}
+
+Two methods are provided for managing citations and
+references.   The first approach uses the
+\verb"\begin{thebibliography}{}"
+and \verb"\end{thebibliography}{}" commands.
+
+The second approach uses a simplified scheme using
+\verb"\begin{references}" and \verb"\end{references}" commands.
+
+References to published literature should be quoted in text by author
+and date; e.g. Draine (1978) or (Begelman, Blandford \& Rees 1984).
+Where more than one reference is cited having the same author(s) and date,
+the letters a,b,c, \ldots\ should follow the date; e.g.\ Smith (1988a),
+Smith (1988b), etc.
+The first time you introduce a three-author paper, you should list all
+three authors at the first citation, and thereafter, use et al.
+
+\subsubsection{Biblography References in the text}
+
+References in the text are given by author and date, and, whichever
+method is used to produce the bibliography, the references in the text
+are done in the same way. Each bibliographical entry has a key, which
+is assigned by the author and used to refer to that entry in the text.
+There is one form of citation -- \verb"\cite{key}" -- to produce the
+author and date, and another form -- \verb"\shortcite{key}" -- which
+produces the date only. Thus, Rutherford \& Hawker \shortcite{rh} is
+produced by
+\begin{verbatim}
+Rutherford \& Hawker \shortcite{rh}
+\end{verbatim}
+while \cite{hi} is produced by
+\begin{verbatim}
+\cite{hi}
+\end{verbatim}
+
+\subsubsection{The bibliography}
+
+The following listing shows some references prepared in the style of
+the journal; the code produces the references at the end of this guide.
+The following rules apply for the ordering of your references:
+\begin{enumerate}
+  \item if an author has written several papers, some with other authors,
+        the rule is that the single-author papers precede the two-author
+        papers, which, in turn, precede the multi-author papers;
+  \item within the two-author paper citations, the order is determined
+        by the second author's surname, regardless of date;
+  \item within the multi-author paper citiations, the order is
+        chronological, regardless of author's surnames.
+\end{enumerate}
+%
+\begin{verbatim}
+\begin{thebibliography}{}
+  \bibitem[\protect\citename{Butcher }1992]{bu}
+    Butcher J. 1992. \textit{Copy-editing: The
+    Cambridge Handbook}, 3rd edn, Cambridge
+    Univ. Press, Cambridge.
+  \bibitem[\protect\citename{The Chicago Manual }%
+    1982]{cm} \textit{The Chicago Manual of Style},
+    Univ. Chicago Press, Chicago, 1982.
+  \bibitem[\protect\citename{Chao }1985]{ch}
+    Chao, B. F., 1985. Normal mode study of the
+    Earth's rigid body motions,
+    \textit{Geophys. Res. Lett.}, \textbf{12}, 526-529.
+  \bibitem[\protect\citename{Hinderer }1986]{hi}
+    Hinderer, J., 1986. Resonance effects of the
+    earth's fluid core in earth rotation,
+    in \textit{Solved and Unsolved Problems},
+    pp. 277-296, ed. Cazenave A., Reidel,
+    Dordrecht.
+  \bibitem[\protect\citename{Lamport }1986]{la}
+    Lamport L., 1986,  \LaTeX: \textit{A Document
+    Preparation System}, Addison--Wesley, New York
+  \bibitem[\protect\citename{Lindberg }1986]{li}
+    Lindberg, C., 1986.  Multiple taper harmonic
+    analysis of terrestrial free oscillations,
+    \textit{PhD thesis}, University of California.
+  \bibitem[\protect\citename{Maupin }1992]{ma}
+    Maupin, V., 1992. Modelling of laterally
+    trapped surface waves with application to
+    Rayleigh waves in the Hawaiian swell,
+    \textit{Geophys. J. Int.}, \textbf{110}, 553-570.
+  \bibitem[\protect\citename{Rutherford
+    \& Hawker }1981]{rh} Rutherford, S. R.
+    \& Hawker, K. E.,  1981, Consistent coupled
+    mode theory of sound propagation for a
+    class of non-separable problems,
+    \textit{J. acoust. Soc. Am.}, \textbf{71},
+    554-564
+\end{thebibliography}
+\end{verbatim}
+Each entry takes the form
+\begin{verbatim}
+\bibitem[\protect\citename{Author(s), }%
+  Date]{tag} Bibliography entry
+\end{verbatim}
+where \verb"Author(s)" should be the author names as they are cited in
+the text, \verb"Date" is the date to be cited in the text, and
+\verb"tag" is the tag that is to be used as an argument for the
+\verb"\cite{}" and \verb"\shortcite{}" commands. \verb"Bibliography entry"
+should be the material that is to appear in the bibliography,
+suitably formatted.
+
+\subsubsection{Simplified References and Citations}
+
+The second approach to referencing is taken with permission from
+the American Geophysical Union Latex macros
+
+The reference section is started using a
+\verb"\begin{references}" command which will
+automatically produce a correctly formatted
+``Reference'' head.  Each reference is then
+preceded by a \verb"\reference"
+command.  It is the author's
+responsibility to place bibliographic reference
+information in the proper order with correct
+punctuation.  After the last reference in your
+reference section, type an \verb"\end{references}"
+command.
+
+Authors may enter properly formatted citations directly
+in the manuscript text and enclose those citations in
+\verb"\markcite{}" commands.  This approach
+marks all citations in your manuscript, but there
+is no interaction between the \verb"\markcite"
+commands and the reference section.
+
+To create in-text citations, enclose each citation
+within a \verb"\markcite" command.
+There are two ways to include in-text citations,
+depending on the way you phrase your sentence.
+You may either include an entire reference within
+brackets \markcite{(Merritt et al., 1996)} or you
+may mention the author as part of your sentence and
+include only the year in brackets, as in \markcite{Ono (1996)}.
+
+As an example
+\begin{verbatim}
+\begin{references}
+\reference
+Azimi, Sh.A., Kalinin, A.Y., Kalinin, V.B.,
+\& Pivovarov, B.L., 1968.
+Impulse and transient characteristics of media
+with linear and quadratic absorption laws,
+\textit{Izv. Earth Phys.} (English Transl.),
+\textbf{2}, 88--93.
+\reference
+Dahlen, F.A., \& Smith, M.L., 1975.
+The influence of rotation on the free
+oscillations of the Earth,
+\textit{Phil. Trans. R. Soc. London Ser. A},
+\textbf{279}, 143--167.
+\reference
+Durek, J.J., Ritzwoller, M.H.,
+\& Woodhouse, J.H., 1993.
+Constraining upper mantle anelasticity
+using surface wave amplitude anomalies,
+\gji, \textbf{114}, 249--272.
+\end{references}
+\end{verbatim}
+produces the reference list
+\begin{references}
+ \reference
+Azimi, Sh.A., Kalinin, A.Y., Kalinin, V.B.,
+\& Pivovarov, B.L., 1968.
+Impulse and transient characteristics of media
+with linear and  quadratic absorption laws,
+\textit{Izv. Earth Phys.} (English Transl.),
+\textbf{2}, 88--93.
+\reference
+Dahlen, F.A., \& Smith, M.L., 1975.
+The influence of rotation on the free oscillations of the Earth,
+\textit{Phil. Trans. R. Soc. London Ser. A}, \textbf{279}, 143--167.
+\reference
+Durek, J.J., Ritzwoller, M.H., \& Woodhouse, J.H., 1993.
+Constraining upper mantle anelasticity
+using surface wave amplitude anomalies,
+\gji \textbf{114}, 249--272.
+\end{references}
+
+\subsubsection{Common Journals}
+
+The following abbreviations are provided for commonly cited
+journals and can be used directly in the bibliography.
+
+In the following table the abbreviation and the form of the
+associated entry are presented
+\newline
+\begin{tabular}{ll}
+\verb"\areps" & \areps \\
+\verb"\bssa"  & \bssa \\
+\verb"\eos"   & \eos  \\
+\verb"\eps"   & \eps \\
+\verb"\epsl"  & \epsl \\
+\verb"\gca"   & \gca \\
+\verb"\geo"   & \geo \\
+\verb"\geop"  & \geop \\
+\verb"\gji"   & \gji \\
+\verb"\gjras" & \gjras \\
+\verb"\grl"   & \grl \\
+\verb"\gsab"  & \gsab \\
+\verb"\gs"    & \gs \\
+\verb"\jgr"   & \jgr \\
+\verb"\jseis" & \jseis \\
+\verb"\mnras" & \mnras \\
+\verb"\pag"   & \pag \\
+\verb"\pepi"  & \pepi \\
+\verb"\rg"    & \rg \\
+\verb"\tecto" & \tecto \\
+\end{tabular}
+%
+% The following two tables have been moved back in the text to
+% improve page layout
+%
+\begin{table*}
+\begin{minipage}{130mm}
+\caption{Authors' notes.}
+\label{authors}
+\begin{tabular}{@{}ll}
+\verb"\title[optional short title]{long title}"
+                    & short title used in running head\\
+\verb"\author[optional short author(s)]{long author(s)}"
+                    & short author(s) used in running head\\
+\verb"\begin{abstract}...\end{abstract}"& for summary on
+titlepage\\
+\verb"\begin{summary}...\end{summary}"& for abstract on
+titlepage\\
+\verb"\begin{keywords}...\end{keywords}"& for keywords on titlepage\\
+\verb"\nokeywords"  & if there are no keywords on titlepage\\
+\verb"\begin{figure*}...\end{figure*}" & for a double spanning figure in two-column mode\\
+\verb"\begin{table*}...\end{table*}" & for a double spanning table in
+                                       two-column mode\\
+\verb"\caption*"    & for continuation figure captions\\
+\verb"\resetfigno" & resets figures numbers after an appendix\\
+\verb"[referee]" & documentclass option for 12/20pt, single col,
+                   for manuscript submission\\
+\verb"[mreferee]" & documentclass option for 11/17pt, single col,
+                   for submission of papers with extensive mathematics\\
+\end{tabular}
+\end{minipage}
+\end{table*}
+%
+\begin{table*}
+\begin{minipage}{130mm}
+\caption{Editors' notes.}
+\label{editors}
+\begin{tabular}{@{}lp{270pt}}
+\verb"\pagerange{000--000}"& for catchline, note use of en-rule\\
+\verb"\pagerange{L00--L00}"& for letters option, used in catchline\\
+\verb"\volume{000}" & volume number, for catchline\\
+\verb"\pubyear{0000}" & publication year, for catchline\\
+\verb"\microfiche{GJI000/0}" & for articles accompanied by microfiche\\
+\verb"\journal" & replace the whole catchline at one go\\
+\verb"[doublespacing]" & documentclass option for doublespacing\\
+\verb"[galley]" & documentclass option for running to galley\\
+\verb"[landscape]" & documentclass option for landscape illustrations\\
+\verb"[fasttrack]" & documentclass option, for rapid short communications
+                   (adds F to folios)\\
+\verb"[onecolumn]" & documentclass option for one-column \\
+\verb"\bsp"& typesets the final phrase `This paper has been produced
+ using the Blackwell Publishing GJI \LaTeX2e\ class file.'\\
+\end{tabular}
+\end{minipage}
+\end{table*}
+
+\subsection{Appendices}
+
+The appendices in this guide were generated by typing:
+\begin{verbatim}
+\appendix
+\section{For authors}
+     :
+\section{For editors}
+\end{verbatim}
+You only need to type \verb"\appendix" once. Thereafter, every
+\verb"\section" command will generate a new appendix which will be
+numbered A, B, etc.
+
+If figure captions are to provided after an appendix the figure number can
+be reset to avoid extraneous labelling using the command
+\verb"\resetfigno".
+
+\section[]{Example of section heading with\\*
+  {\mdseries \textsc{S}\lowercase{\textsc{mall}}
+  \textsc{C}\lowercase{\textsc{aps}}},
+  \lowercase{lowercase},
+  \textit{ italic}, and bold\\* Greek such as
+  $\mitbf{{\mu^\kappa}}$}\label{headings}
+
+This can be built up using text commands and the \verb"mitbf"
+command introduced above
+
+\begin{verbatim}
+\section[]{Example of section heading with\\*
+  {\mdseries \textsc{S}\lowercase{\textsc{mall}}
+  \textsc{C}\lowercase{\textsc{aps}}},
+  \lowercase{lowercase},
+  \textit{ italic}, and bold\\* Greek such as
+  $\mitbf{{\mu^\kappa}}$}\label{headings}
+\end{verbatim}
+
+\subsection{Acknowledgments}
+Acknowledgments after the main text and before the appendices can be
+included with the
+\texttt{acknowledgments} environment, as
+\begin{verbatim}
+\begin{acknowledgments}
+We wish to thank ...
+\end{acknowledgments}
+\end{verbatim}
+There is also a corresponding \texttt{acknowledgment} environment for a
+single acknowledgment.
+
+\begin{acknowledgments}
+A number of colleagues have helped with suggestions for the
+improvement of this material and I would particularly like to thank
+Bob Geller, University of Tokyo for his criticisms and corrections.
+\end{acknowledgments}
+
+\begin{thebibliography}{}
+  \bibitem[\protect\citename{Frankel }1992]{bu}
+    Frankel A. \& Vidale J. 1992. \textit{A three-dimensional simulation of
+seismic waves in the Santa Clara Valley, California, from a
+Loma Prieta aftershock}, Seismol. Soc. Am. 82, no. 5, 2045?
+2074.
+    
+  \bibitem[\protect\citename{Graves }1998]{bu}
+    Graves R. W.  \textit{Three-dimensional finite-difference modeling of
+the San Andreas fault: Source parameterization and ground-motion
+levels}, Bull. Seismol. Soc. Am. 88, no. 4, 881?897.
+ 
+  \bibitem[\protect\citename{Olsen }1995]{bu}
+    Olsen K. B. \& Archuleta J.  \& Matarese R.1995. \textit{Threedimensional
+simulation of a magnitude 7.75 earthquake on the
+San Andreas fault}, Science 270, no. 5242, 1628?1632.
+  
+  \bibitem[\protect\citename{Bao }1998]{bu}
+    Bao H. \& Bielak J.  \& Ghattas O. \& Kallivokas F. \& O'Hallaron D. R. \& Shewchuk J. R. \& Xu J. 1998. \textit{Large-scale simulation of elastic
+wave propagation in heterogeneous media on parallel computers}, Comput. Meth. Appl. Mech. Eng. 152, no. 1?2, 85?102.
+    
+  \bibitem[\protect\citename{Seriani }1998]{bu}
+    Seriani G. 1998. \textit{3-D large-scale wave propagation modeling by spectral
+element method on Cray T3E multiprocessor}, Comput. Meth. Appl. Mech. Eng. 164, no. 1?2, 235?247.
+    
+ 
+  \bibitem[\protect\citename{Kaser }2006]{bu}
+    Kaser G. \& Cogley J. G. \& Dyurgerov M. B \& Meier M. F. \& Ohmura A. 2006. \textit{Mass balance of glaciers and ice caps: consensus estimates for 1961?2004}, Geophysical Research Letters, 33(19).
+ 
+  
+  \bibitem[\protect\citename{Komatitsch }2004]{bu}
+    Komatitsch D. \& Liu Q. \& Tromp J. \& Suss P. \& Stidham C. \& Shaw J. H. 2004. \textit{Simulations of ground motion in the Los Angeles basin based upon the spectral-element method}, Bull. Seismol. Soc. Am. 94, no. 1, 187?206.
+  
+  
+  \bibitem[\protect\citename{Aagaard }2008]{bu}
+    Aagaard B. T. \& Brocher T. M. \& Dolenc D. \& Dreger D. \& Graves R. W. \& Harmsen S. \& Hartzell S. \& Larsen S. \& Zoback M. L. 2008. \textit{Groundmotion
+modeling of the 1906 San Francisco earthquake, Part I: Validation using the 1989 Loma Prieta earthquake}, Bull. Seismol. Soc. Am. 98, no. 2, 989?1011.
+ 
+  \bibitem[\protect\citename{Aagaard }2008]{bu}
+    Aagaard B. T. \& Brocher T. M. \& Dolenc D. \& Dreger D. \& Graves R. W. \& Harmsen S. \& Hartzell S. \& Larsen S. \& Zoback M. L. 2008. \textit{Groundmotion
+modeling of the 1906 San Francisco earthquake, Part I: Validation using the 1989 Loma Prieta earthquake}, Bull. Seismol. Soc. Am. 98, no. 2, 989?1011.
+    
+  \bibitem[\protect\citename{Graves }2008]{bu}
+    Graves R. W. \& Aagaard B. T. \& Hudnut K. W. \& Star L. M. \& Stewart J. P. \& Jordan T. H.  2008. \textit{Broadband simulations forMw 7.8 southern San Andreas earthquakes: Ground motion sensitivity to rupture speed}, Geophys. Res. Lett. 35, no. 22, L22302, doi: 10.1029/2008GL035750.
+    
+  \bibitem[\protect\citename{Olsen }2010]{bu}
+    Olsen K. B. \& Mayhew J. E.  2010. \textit{Goodness-of-fit criteria for broadband synthetic seismograms, with application
+to the 2008 Mw 5.4 Chino Hills}, California, earthquake, Seismol. Res. Lett. 81 (5): 715?723.
+    
+  \bibitem[\protect\citename{Bielak }2010]{bu}
+    Bielak J. \& Graves R. W. \&Olsen K. B. \& Taborda R. \& Ramírez-Guzmán L. \& Day L. \& Ely S. M. \& Roten D. \& Jordan T. H. \&  Maechling P. J. \& Urbanic J. \& Cui Y. \& Juve G. 2010. \textit{The ShakeOut Earthquake Scenario: Verification
+of Three Simulation Sets}, Geophys. J. Int. 180 (1): 375?404.    
+    
+  \bibitem[\protect\citename{Cui }2010]{bu}
+    Cui Y. \& Olsen K. B \&Olsen K. B. \&  Jordan T. H. \&  Lee K. \& Zhou J. \& Small P. \& Roten D. \& Ely G. \& Panda D. K. \& Chourasia A. \& Levesque J. \& Day S. M. \& Maechling P.  2010. \textit{Scalable earthquake simulation on petascale
+supercomputers, in High Performance Computing, Networking, Storage and Analysis (SC)}, 2010 International Conference, New Orleans,
+Louisiana, 13?19 November 2010, 1?20.    
+
+   
+  \bibitem[\protect\citename{Taborda }2013]{bu}
+    Taborda  R. 2013. \textit{}, 2013 ...  
+   
+      \bibitem[\protect\citename{Lee }2014]{bu}
+    Lee  En-Jui \& Chen P. \& Jordan T. H.. 2014. \textit{Testing waveform prediction of 3D velocity models against two recent Los Angeles earthquakes}, Seismological Research Letters, 85(6), 1275-1284.     
+    
+    
+        
+  
+          
+  \bibitem[\protect\citename{The Chicago Manual }%
+    1982]{cm} \textit{The Chicago Manual of Style}, Univ.
+    Chicago Press, Chicago, 1982.
+  \bibitem[\protect\citename{Chao }1985]{ch}
+    Chao, B. F., 1985. Normal mode study of the Earth's rigid
+     body motions, \textit{Geophys. Res. Lett.}, \textbf{12}, 526-529.
+  \bibitem[\protect\citename{Hinderer }1986]{hi}
+    Hinderer, J., 1986. Resonance effects of the earth's fluid
+    core in earth rotation, in \textit{Solved and Unsolved
+    Problems}, pp. 277-296, ed. Cazenave A., Reidel,
+    Dordrecht.
+  \bibitem[\protect\citename{Kopka \& Daly}1995]{kd}
+    Kopka H. \& Daly P.W., 1995, \textit{A guide to} \LaTeX2e,
+    Addison--Wesley, New York
+  \bibitem[\protect\citename{Lamport }1986]{la}
+    Lamport L., 1986,  \LaTeX: \textit{A Document
+    Preparation System}, Addison--Wesley, New York
+  \bibitem[\protect\citename{Lindberg }1986]{bl}
+    Lindberg, C., 1986.  Multiple taper harmonic analysis of
+    terrestrial free oscillations, \textit{PhD thesis},
+    University of California.
+  \bibitem[\protect\citename{Maupin }1992]{ma}
+    Maupin, V., 1992. Modelling of laterally trapped surface
+    waves with application to Rayleigh waves in the Hawaiian
+    swell, \textit{Geophys. J. Int.}. \textbf{110}, 553-570.
+  \bibitem[\protect\citename{Rutherford \& Hawker }%
+    1981]{rh}  Rutherford, S. R. \& Hawker, K. E., 1981,
+    Consistent coupled mode theory of sound propagation for a
+    class of non-separable problems,
+   \textit{J. acoust. Soc. Am.}, \textbf{71}, 554-564
+\end{thebibliography}
+
+
+\appendix
+\section{For authors}
+
+Table~\ref{authors} is a list of design macros which are unique to GJI. The
+list displays each macro's name and description.
+
+\section{For editors}
+
+The additional features shown in Table~\ref{editors} may be used for
+production purposes.
+
+\bsp % ``This paper has been produced using the Blackwell
+     %   Publishing GJI \LaTeXe\ class file.''
+
+\label{lastpage}
+
+
+\end{document}
