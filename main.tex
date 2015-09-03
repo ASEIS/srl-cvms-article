@@ -1,0 +1,194 @@
+
+% ============================================================================================================
+
+% JOURNAL MODE
+% ------------
+
+\documentclass[extra]{gji}
+\setlength{\paperwidth}{210mm}
+\setlength{\paperheight}{297mm}% fixed.
+\usepackage[pass]{geometry}\usepackage{timet}
+
+% ============================================================================================================
+
+% MANUSCRIPT MODE
+% ---------------
+
+% \documentclass[extra,mreferee]{gji}
+
+% ============================================================================================================
+
+% \addtolength{\paperheight}{1in}
+
+\usepackage{fancyhdr}
+\usepackage{comment}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{environ}
+\usepackage{datatool}
+\usepackage{textcomp}
+
+
+% \widowpenalty=1000
+% \clubpenalty=1000
+
+
+\title[\input{short-title}]{\input{long-title}}
+\author[\input{short-authors}]{\input{long-authors}}
+% \date{Received 2015 August 1; in original form 2015 July 1}
+\date{To be submitted by September, 2015}
+\pagerange{\pageref{firstpage}--\pageref{lastpage}}
+\volume{000}
+\pubyear{0000}
+
+%\def\LaTeX{L\kern-.36em\raise.3ex\hbox{{\small A}}\kern-.15em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}
+%\def\LATeX{L\kern-.36em\raise.3ex\hbox{{\Large A}}\kern-.15em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}
+% Authors with AMS fonts and mssymb.tex can comment out the following
+% line to get the correct symbol for Geophysical Journal International.
+
+\let\leqslant=\leq
+
+\newtheorem{theorem}{Theorem}[section]
+
+\input{mycommands}
+
+\begin{document}
+
+\label{firstpage}
+
+\maketitle
+
+\input{content}
+
+\bibliographystyle{gji}
+\bibliography{references}
+
+%     \bibitem[\protect\citename{Komatitsch }2004]{ch} 
+%     Komatitsch, D., Q. Liu, J. Tromp, P. Süss, C. Stidham, and J. H. Shaw
+% (2004). Simulations of ground motion in the Los Angeles basin based
+% upon the spectral-element method, Bull. Seismol. Soc. Am. 94, no. 1,
+% 187?206, doi: 10.1785/0120030077.
+    
+%        \bibitem[\protect\citename{Olsen }2009]{ch} 
+%     Olsen, K. B., S. M. Day, L. A. Dalguer, J. Mayhew, Y. Cui, J. Zhu, V. M.
+% Cruz-Atienza, D. Roten, P. Maechling, T. H. Jordan, D. Okaya, and
+% A. Chourasia (2009). ShakeOut-D: Ground motion estimates using an
+% ensemble of large earthquakes on the southern San Andreas fault with
+% spontaneous rupture propagation, Geophys. Res. Lett. 36, L04303, doi:
+% 10.1029/2008GL036832.
+   
+%        \bibitem[\protect\citename{Magistrale }2000]{ch}    
+%   Magistrale, H., S. Day, R. W. Clayton, and R. Graves (2000). The SCEC
+% southern California reference three-dimensional seismic velocity
+% model version 2, Bull. Seismol. Soc. Am. 90, no. 6B, S65?S76, doi:
+% 10.1785/0120000510.
+  
+%        \bibitem[\protect\citename{Magistrale }1996]{ch}    
+% Magistrale, H., K. McLaughlin, and S. Day (1996). A geology-based 3D
+% velocity model of the Los Angeles basin sediments, Bull. Seismol.
+% Soc. Am. 86, no. 4, 1161?1166.  
+
+%  \bibitem[\protect\citename{Hauksson }2000]{ch}    
+% Hauksson, E. (2000). Crustal structure and seismicity distribution adjacent to
+% the Pacific and North America plate boundary in southern California,
+% J. Geophys. Res. 105, no. B6, 13,875?13,904, doi: 10.1029/
+% 2000JB900016.
+ 
+%   \bibitem[\protect\citename{Kohler }2003]{ch}    
+% Kohler, M. D., H. Magistrale, and R. W. Clayton (2003). Mantle heterogeneities
+% and the SCEC reference three-dimensional seismic velocity
+% model version 3, Bull. Seismol. Soc. Am. 93, no. 2, 757?774, doi:
+% 10.1785/0120020017.
+
+%   \bibitem[\protect\citename{Tu }2003]{ch}    
+% Tu, T., J. López, and D. O?Hallaron (2003). The etree library: A system for
+% manipulating large octrees on disk, Tech. Rept. CMU-CS-03-174,
+% School of Computer Science, Carnegie Mellon University, available
+% at http://www.cs.cmu.edu/~euclid/ (last accessed August 2012).
+
+% \bibitem[\protect\citename{Rodgers }2008]{ch}
+% Rodgers, A., N. A. Petersson, S. Nilsson, B. Sjögreen, and K. McCandless
+% (2008). Broadband waveform modeling of moderate earthquakes in the
+% San Francisco Bay area and preliminary assessment of the USGS 3D
+% seismic velocity model, Bull. Seismol. Soc. Am. 98, no. 2, 969?988,
+% doi: 10.1785/0120060407.
+
+% \bibitem[\protect\citename{Bielak }2010]{ch}
+% Bielak, J., R. W. Graves, K. B. Olsen, R. Taborda, L. Ramírez-Guzmán, S.
+% M. Day, G. P. Ely, D. Roten, T. H. Jordan, P. J. Maechling, J. Urbanic,
+% Y. Cui, and G. Juve (2010). The ShakeOut earthquake scenario: Verification
+% of three simulation sets, Geophys. J. Int. 180, no. 1, 375?404,
+% doi: 10.1111/j.1365-246X.2009.04417.x.
+
+% \bibitem[\protect\citename{Süss }2003]{ch}
+% Süss, M. P., and J. H. Shaw (2003). P wave seismic velocity structure derived
+% from sonic logs and industry reflection data in the Los Angeles
+% basin, California, J. Geophys. Res. 108, no. B3, 2170, doi: 10.1029/2001JB001628.
+
+% \bibitem[\protect\citename{Süss }2005]{ch}
+% Süss, M. P., J. H. Shaw, P. Lovely, J. Mueller, and A. Plesch (2005). The new
+% SCEC community velocity model (CVM-H 2.0), in Proc. SCEC Annu.
+% Meet., Palm Springs, California, 11?14 September.
+
+% \bibitem[\protect\citename{Plesch }2007]{ch}
+% Plesch, A., M. P. Suess, J. Munster, J. H. Shaw, E. Hauksson, T. Tanimoto,
+% and Members of the USR Working Group (2007). A new velocity
+% model for southern California: CVM-H 5.0, in Proc. SCEC Annu.
+% Meet., Palm Springs, California, 8?12 September 2007.
+
+% \bibitem[\protect\citename{Plesch }2009]{ch}
+% Plesch, A., C. Tape, J. H. Shaw, and Members of the USR Working Group
+% (2009). CVM-H 6.0: Inversion integration, the San Joaquin valley and
+% other advances in the community velocity model, in Proc. SCEC Annu.
+% Meet., Palm Springs, California, 13?16 September 2009.
+
+% \bibitem[\protect\citename{Plesch }2011]{ch}
+% Plesch, A., C. Tape, R. Graves, J. Shaw, P. Small, and G. Ely (2011). Updates
+% for the CVM-H including new representations of the offshore Santa
+% Maria and San Bernardino basin and a new Moho surface, in Proc.
+% SCEC Annu. Meet., 11?14 September, Number B?128.
+
+% \bibitem[\protect\citename{Prindle }2006]{ch}
+% Prindle, K., and T. Tanimoto (2006). Teleseismic surface wave study for Swave
+% velocity structure under an array: Southern California, Geophys.
+% J. Int. 166, no. 2, 601?621, doi: 10.1111/j.1365-246X.2006.02947.x.
+
+% \bibitem[\protect\citename{Tape }2009]{ch}
+% Tape, C., Q. Liu, A. Maggi, and J. Tromp (2009). Adjoint tomography of the
+% southern California crust, Science 325, no. 5943, 988?992, doi:10.1126/science.1175298.
+
+% \bibitem[\protect\citename{Ely }2010]{ch}
+% Ely, G. P., T. H. Jordan, P. Small, and P. J. Maechling (2010). A $V_S30$-derived
+% near-surface seismic velocity model, in Abstr. AGU Fall Meet., Number
+% S51A-1907, available online at http://web.alcf.anl.gov/~gely/pub/
+% Ely2010?AGU?Vs30?GTL.pdf (last accessed April 2014).
+
+% \bibitem[\protect\citename{Wills }2006]{ch}
+% Wills, C. J., and K. B. Clahan (2006). Developing a map of geologically
+% defined site-condition categories for California, Bull. Seismol. Soc.
+% Am. 96, no. 4A, 1483?1501, doi: 10.1785/0120050179.
+
+% \bibitem[\protect\citename{Wald }2007]{ch}
+% Wald, D. J., and T. I. Allen (2007). Topographic slope as a proxy for seismic
+% site conditions and amplification, Bull. Seismol. Soc. Am. 97, no. 5,
+% 1379?1395, doi: 10.1785/0120060267.
+
+% \bibitem[\protect\citename{Brocher }2005]{ch}
+% Brocher, T. M. (2005). Compressional and shear wave velocity versus depth
+% in the San Francisco Bay area, California: Rules for USGS Bay Area
+% Velocity Model 05.0.0, Technical Report OFR-2005-1317, available at
+% http://pubs.usgs.gov/of/2005/1317/ (last accessed April 2014).
+
+% \bibitem[\protect\citename{Wald }2007]{ch}
+
+%  \end{thebibliography}
+
+% \bsp 
+
+\label{lastpage}
+
+\end{document}

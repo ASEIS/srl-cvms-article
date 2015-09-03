@@ -1,0 +1,73 @@
+
+\section{Evaluation Method}
+
+We evaluate the accuracy of the simulations, and thus that of the velocity models, based on a quantitative validation of the simulated ground motions. The validation process consists of comparisons between synthetics and data, at locations where records were available for the simulated events. For this, we compiled a large collection of broadband and strong-motion records from two data centers, the Southern California Earthquake Data Center (SCEDC) and the Center for Engineering Strong Motion Data (CESMD). SCEDC and CESMD archive records from various seismic networks in the southern California region. In total we obtained records from more than 800 stations spread throughout the simulation domain. Unfortunately, not all the stations recorded all the events, thus the number of available data-points for comparisons varied between events. In addition, some stations were discarded for reasons explained below. The total number of stations with records used for validation is shown in Table \ref{tab:events} for each event.
+
+Records from SDEDC and CESMD were processed and selected as follows. For each event, we first downloaded all the stations that recorded the earthquake and identified those that fell within the simulation domain boundaries. From this initial set, we kept only free-surface stations that free surface with records in three orthogonal components, two horizontal and one vertical. Although the majority of stations have instruments oriented as positive in the North (NS), East (EW), and up directions (UD), we rotated or sign-flipped those signals that had different orientations in order to bring them all to a common standard. Selecting only free-surface stations mean that we discarded stations from geotechnical arrays with stations at depth or stations that are part of structural monitoring arrays. In the case of strong ground motion records from CESMD, we preferred records that were available in their raw format (V1). For these records, whose original data correspond to accelerations, we performed gain and baseline corrections, and applied a \textcolor{red}{high-pass filter at 0.05 Hz} before integrating to obtain velocities and displacements. In the case of the records downloaded from SCEDC, we used both strong-motion accelerations (HN channels) or broadband velocities (BH channels). In general, we preferred HN channels, but used records from BH channels if these offered data not available in other formats. For HN channels, we proceeded similarly as we did with the V1 records from CESMD, high-pass filtering and integrating to obtain velocities and displacements. For BH channels, we derivate to obtain accelerations and high-pass filter and integrate the records to obtain displacements. 
+
+
+
+a complete set of displacement, velocity, and acceleration triplets in the N, EW, and Up 
+signals to obtain the velocity and displacement time-series
+
+
+% In addition, it should be noted that we only considered stations where all three motion components (North-South, East-West, Up-Down) where available.
+
+
+
+
+% more than 800 stations spread throughout the simulation domain. 
+
+
+% The validation process is carried out using the goodness-of-fit (GOF) method proposed by \citet{Anderson_2004_Proc}, with modifications introduced by \citet{Taborda_2013_BSSA}. The method compares synthetics against data using eleven individual parameters, namely: Arias integral (C1), energy integral (C2), Arias intensity (C3), total energy (C4), peak acceleration (C5), peak velocity (C6), peak displacement (C7), response spectrum (C8), Fourier amplitude spectrum (C9), cross correlation (C10), and strong-phase duration (C11). Each parameter is scaled on a numerical scoring 
+
+% on different averages computed using eleven different metrics, C1 through C11
+
+% the similarity between synthetics and recorded ground motions. We perform a quantitative validation using an implementation of the  This GOF method assigns a numerical score on a scale from 0 to 10, where 10 represents a perfect match. The method compares the two signals ()
+
+
+% We obtained records for each of the simulated events from two data centers, the  SC
+
+% We use a modified version of the goodness-of-fit (GOF) criteria proposed by \citet{Anderson_2004_Proc}. The resulting scoring criteria combines eleven different parameters (C$i$), including the Arias integral (C1), energy integral (C2), Arias intensity (C3), total energy (C4), peak acceleration (C5), peak velocity (C6), peak displacement (C7), response spectrum (C8), Fourier amplitude spectrum (C9), cross correlation (C10), and the strong phase duration (C11). 
+
+% Each of the parameters is scaled so that the total score varies from 0 to 10, in which a score of 10 corresponds to a perfect match between two signals. The eleven scores are combined using the following expresion:
+% %
+% \begin{equation}
+% 	\mathrm{S} = \frac{1}{9} \left( 
+% 		\frac{\mathrm{C}1+\mathrm{C}2}{2} +
+% 		\frac{\mathrm{C}3+\mathrm{C}4}{2} +
+% 		\sum_{i=5}^{11} \mathrm{C}i
+% 	\right)
+% 	\hspace{0.25em},
+% 	\label{eq:s-rule}
+% \end{equation}
+% %
+% and computed for each pair of seismograms over the entire bandwidth of the signals or broadband (BB, 0--4~Hz) and for five different frequency bands, SB$_1$ (0.1--0.25~Hz), SB$_2$  (0.25--0.5~Hz), SB$_3$ (0.5--1~Hz), SB$_4$ (1--2~Hz), and SB$_5$ (2--4~Hz). The results of S from equation \refeqn{eq:s-rule} for the broadband and each of the individual bands analysis are then combined to obtain a final score (FS), define as:
+% %
+% \begin{equation}
+% 	\mathrm{FS} = \frac{1}{6} \left( \mathrm{BB} + \sum^5_{i=1} \mathrm{SB}_i \right)
+% 	\hspace{0.25em}.
+% 	\label{eq:s1-rule}
+% \end{equation}
+% %
+% Additional details about the original parameters proposed by \citet{Anderson_2004_Proc} and the modifications introduced to the scoring criterion are given in \citet{Taborda_2013_BSSA}, where we also discuss our preference of \citeauthor{Anderson_2004_Proc}'s procedure over other available methods such as those of \citet{Kristekova_2009_GJI} or \citet{Olsen_2010_SRL}. We favor \citet{Anderson_2004_Proc} because its metrics convey physical meaning to both seismologists and engineers, and because it suits best the validation of synthetics
+% with respect to data---as opposed to \citet{Kristekova_2009_GJI}, which works best for verification purposes. \citet{Olsen_2010_SRL}, on the other hand, is in many respects equivalent to \citet{Anderson_2004_Proc}. It is noteworthy that in testing their GOF criterion, \citet{Olsen_2010_SRL} used results from a (broadband) simulation of the 2008 Chino Hills earthquake as well. Their work anticipated in a rough way some of our later more detailed findings regarding the frequency-dependence and geographical distribution of the fit of (deterministic) simulations with data using CVM-S \citep{Taborda_2013_BSSA}. Here, we extend the comparisons to other models, as described.
+
+
+
+
+
+
+
+
+% \textcolor{red}{\textit{In progress...}}
+
+% % Validation Process is concerned with determining wether the results of our conceptual model are accurate representatives for physical system under study. Validation is an essential part of system science in the area of simulation. Here validation refers to comparison of simulation results for each of events with the observed data through recorded waveforms at many different stations. The validation process has been taken place by the evaluation of results through quantitative (graphical) comparisons of synthetics and real data from seismic networks using quantitative metrics like goodness-of-fit scores. 
+
+% % For the validation of the different simulations we use the GOF criterion proposed by Anderson (2004). This criterion uses ten individual parameters (Ci): Arias duration (C1), energy duration (C2), Arias intensity (C3), energy integral (C4), peak acceleration (C5), peak velocity (C6), peak displacement (C7), response spectrum (C8), Fourier amplitude spectrum (C9), and cross correlation (C10). Each parameter is scaled such that it yields a score varying from 0 to 10, where a score of 10 corresponds to a perfect match between the two signals for the given metric. Following the previous validation work (Taborda and Bielak, 2013b), we use an eleventh metric (C11) to explicitly account for the duration of the strong motion phase of the earthquake and combine them all using the rule: 
+
+% % \begin{equation}
+% % S = (\frac{1}{9})\times((\frac{1}{2})(C _{1}+ C_{2}) +( \frac{1}{2})(C_{3} + C_{4}) )
+% % \end{equation}
+ 
+% % Although there are other GOF and misfit criteria available in the literature (e.g. Kristekova et al., 2006, 2009), we preferred the modified Anderson method because it combines various comparison criteria that are meaningful to both engineers and seismologists, and has been satisfactorily used in previous validation efforts.

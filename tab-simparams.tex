@@ -1,0 +1,56 @@
+
+\begin{table}
+	\centering\small
+	\caption{Simulation parameters and numerical model details.}
+	\begin{tabular}[t]{@{}l c@{}}
+		\\[-3ex]
+		\hline
+		
+		\multicolumn{2}{@{}l}{Domain size}	\\
+		
+		\quad Length (km)	& 180			\\
+		\quad Width (km)	& 135			\\
+		\quad Depth (km)	& 61.875 		\\
+
+		\multicolumn{2}{@{}l}{Domain corners${}^{a}$} \\
+		
+		\quad Southwest	& --119.2888\textdegree, 34.120549\textdegree\\
+		\quad Northwest & --118.3540\textdegree, 35.061096\textdegree\\
+		\quad Northeast & --116.8460\textdegree, 34.025873\textdegree\\
+		\quad Southeast & --117.7809\textdegree, 33.096503\textdegree\\
+
+		\multicolumn{2}{@{}l}{Numerical parameters} \\
+
+		\quad \fmax{} (Hz)				& 1.0		\\
+		\quad \vsmin{} (m/s)			& 200		\\
+		\quad Points/wavelength 		& 8--15		\\
+		\quad Simulation $\Delta t$	(s) & 0.005		\\
+		\quad Simulation time (s)		& 100		\\
+		\quad Number of steps 			& 20,000	\\
+
+		\multicolumn{2}{@{}l}{Mesh details} \\
+
+		\quad Min.~element size (m)		& 21.97 m	\\
+		\quad Max.~element size (m)		& 351.56 m	\\
+		\quad Number elements (mill.)				\\
+		\quad \quad CVM-S4				& 106.4		\\
+		\quad \quad CVM-S4.26.2.2.1		& 110.3		\\
+		\quad \quad CVM-S4.26.2.2.2		& 249.7		\\
+		\quad \quad CVM-S4.26.2.2.3		& 282.6		\\
+
+		\multicolumn{2}{@{}l}{Avg.~simulation wall-clock time (hr:mm:ss)${}^{b}$} \\
+		\quad \quad CVM-S4				& 1:03:46	\\
+		\quad \quad CVM-S4.26.2.2.1		& 1:03:58	\\
+		\quad \quad CVM-S4.26.2.2.2		& 2:17:24	\\
+		\quad \quad CVM-S4.26.2.2.3		& 2:40:51	\\
+
+		\hline
+
+		\multicolumn{2}{@{}l}{${}^{a}$\hspace{0.20ex}The corners of the domains are given in longitude and latitude.} \\
+		\multicolumn{2}{@{}l}{${}^{b}$\hspace{0.35ex}Corresponding to 1,280 cores on NCSA's Blue Waters.}
+
+	\end{tabular}
+	\label{tab:simparams}
+\end{table}
+
+
