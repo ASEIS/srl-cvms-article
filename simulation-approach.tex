@@ -1,9 +1,0 @@
-
-\section{Simulation Method and Parameters}
-
-The simulation is done for each earthquake and velocity model using Hercules, a parallel 3D finite element computer application for solving forward anelastic wave propagation problems which has been thoroughly tested and verified in multiple supercomputers. It implements an octree datastructure for representing unstructured hexahedral meshes in memory \citep{Tu_2006_Proc} with a solution approach relies on a standard Galerkin method for discretizing the equations of elastodynamics in space, and advances explicitly in time to obtain the next-step state of nodal displacements.
-
-\input{tab-simparams}
-
-Table \ref{tab:simparams} describes the main simulation parameters. All simulations were done on Blue Waters at the National Center for Supercomputing Applications. Table \ref{tab:simparams} also includes information about the average performance of the code for every simulation model. All simulations considered, we used over 0.27 million of CPU hours.
-
