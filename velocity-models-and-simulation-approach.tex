@@ -30,3 +30,35 @@ already been used to produce unstructured (etree) meshes (Taborda et al., 2007; 
 In all cases, we constructed rasterized versions of the models for the volume simulation domain shown in Fig.~\ref{fig:region}a. This was done using the Unified Community Velocity Model (UCVM) software framework developed by SCEC \citep{Small_2011_AGU, Gill_2015_SSA}, and the UCVM implementation of the etree library \citep{Tu_2003_Tech}, which follows a similar procedure to that described in \citet{Taborda_2007_Proc} and \citet{Schlosser_2008_Proc}.
 
 Fig.~\ref{fig:hslices} shows a comparison between the four models for the free-surface \vs{} and the depths to the isosurfaces at which \vs{} values reach 1.0 and 2.5 km/s. From the isosurfaces, Perhaps the larger contrasts between CVM-S4 and CVM-S4.26 are observed off shore and north of the San Andreas fault, in the Mojave desert (see Fig.~\ref{fig:region} for reference). Other changes are observable in the Santa Clara river valley and Ventura basin, and in the vicinity of the San Bernardino basin, especially to the East (top-right corner of the simulation domain). In all these cases CVM-S4.26 exhibits deeper structures than CVM-S4. Most of the changes in CVM-S4.26 with respect to CVM-S4 are in the deeper structures, and to the north-west of the of segment $\overline{\mathrm{AB}}$ and to the east of segment $\overline{\mathrm{BS}}$.
+
+The simulation is done at maximum frequency of 1 Hz and minumum shear wave velocity of 200 m/s for each earthquake and velocity model combination using Hercules, a parallel 3D finite element computer application for solving forward anelastic wave propagation problems which has been thoroughly tested and verified in multiple supercomputers. Hercules implements an octree datastructure for representing unstructured hexahedral meshes in memory \citep{Tu_2006_Proc} with a solution approach relies on a standard Galerkin method for discretizing the equations of elastodynamics in space, and advances explicitly in time to obtain the next-step state of nodal displacements. The time integration scheme uses first-order backward and second-order central differences to approximate the velocity and acceleration, respectively (Taborda et al. 2010). All simulations are done on Blue Waters at the National Center for Supercomputing Applications.
+It is important to note that none of the velocity models provides information about the quality factors \qp{} and \qs{}, which are necessary for modeling the effects of intrinsic attenuation. In this regard, for the case of \qs{}, we adopt the empirical rule
+%
+\begin{align}
+	Q_S =\; 
+		& 10.5 - 16 V_S + 153 V_S^2 - 103 V_S^3 
+		\nonumber \\
+		& + 34.7 V_S^4 - 5.29 V_S^5 + 0.31 V_S^6
+	\label{eq:qs}
+\end{align}
+%
+\noindent
+used in \citet{Taborda_2013_BSSA, Taborda_2014_BSSA}. This rule is an extension of that proposed by \citet{Brocher_2005_Tech, Brocher_2008_BSSA}, which was in turn inspired by other similar but simpler approximations used in the past \citep[e.g.][]{Olsen_2003_BSSA, Graves_2008_BSSA}. On the other hand, for the case of \qp{}, we use
+%
+\begin{equation}
+	Q_P = \frac{3}{4}\left( V_P / V_S \right)^2 Q_S
+	\hspace{.25em},
+	\label{eq:qp}
+\end{equation} 
+% 
+which is derived from the special case in which one considers no attenuation due to dilatational deformation, i.e.~$Q_\kappa \rightarrow \infty$ \citep[e.g.,][]{Stein_2003_Book, Shearer_2009_Book}. In both cases we consider the values of $Q$ to remain constant within the range of frequencies considered.
+
+In Hercules, the finite element meshes are built at run-time, and the variable size of the elements is set such that it satisfies the rule
+%
+\begin{equation}
+	e \leq \frac{V_S}{f_{\max} p}
+	\hspace{.25em},
+	\label{eq:esize}
+\end{equation} 
+% 
+where $p$ is the number of points per wavelength. We set $p=8$ as a minimum requirement, but due to the octree structure of the mesh, for most elements with properties transitioning from one element size to the next, the effective number of points per wavelength varies between 8 and 15.
