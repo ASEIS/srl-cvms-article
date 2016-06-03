@@ -1,0 +1,36 @@
+
+\section{simulation approach}
+
+The simulations are performed by Hercules on Blue Waters system (at the National Center for Supercomputing Applicationsat) at maximum frequency of 1 Hz and minumum shear wave velocity of 200 m/s for 30 earthquakes (as point sources) and 4 velocity models discussed before. Hercules is a parallel 3D finite element computer application for solving forward anelastic wave propagation problems which implements an octree datastructure for representing unstructured hexahedral meshes in memory \citep{Tu_2006_Proc} with a solution approach using standard Galerkin method for discretizing the equations of elastodynamics in space, and advances explicitly in time to obtain the next-step state of nodal displacements. To approximate the velocity and acceleration, the time integration scheme uses first-order backward and second-order central differences respectively \citep{Taborda_2010_Tech}.
+
+Since the models do not provide information for quality factors, we consider it constant within the 1Hz frequency range. \qs{} is calculate by the empirical rule
+%
+\begin{align}
+	Q_S =\; 
+		& 10.5 - 16 V_S + 153 V_S^2 - 103 V_S^3 
+		\nonumber \\
+		& + 34.7 V_S^4 - 5.29 V_S^5 + 0.31 V_S^6
+	\label{eq:qs}
+\end{align}
+%
+\noindent
+used in \citet{Taborda_2013_BSSA, Taborda_2014_BSSA} and for \qp{} we use equation
+%
+\begin{equation}
+	Q_P = \frac{3}{4}\left( V_P / V_S \right)^2 Q_S
+	\hspace{.25em},
+	\label{eq:qp}
+\end{equation} 
+% 
+derived from the situation with no attenuation due to dilatational deformation (\citep{Stein_2003_Book} and \citep{Shearer_2009_Book}).
+
+
+The finite element meshes of Hercules are built at run-time, and the variable size of the elements satisfies the rule
+%
+\begin{equation}
+	e \leq \frac{V_S}{f_{\max} p}
+	\hspace{.25em},
+	\label{eq:esize}
+\end{equation} 
+% 
+where $p$ is the number of points per wavelength. We consider minimum requirement for $p$ equal to  8. However, for most elements with properties transitioning from one element size to the next, the effective number of points per wavelength varies between 8 and 15 due to the octree structure of the mesh.

@@ -1,0 +1,4 @@
+
+\section{signal processing}
+
+We process the data and perform gain and baseline corrections, and apply a high-pass filter at 0.05 Hz before integrating to obtain velocities and displacements. In addition, signals are also (sub)-sampled to have the same time-step size, $\Delta t$. Plus, both data and synthetics were synchronized using the earthquake original times. Applying filters equally to data and synthetics, using a common $\Delta t$ equal to 0.1 s and a decimation corner (low-pass) frequency of 2~Hz, and synchronizing the start- and end-time of each pair of signals provides a high consistency in both the frequency and time domains, which minimizes the numerical discrepancies that could arise from the comparisons performed using the different metrics C1 through C11. Additional details in this regard can be found in \citet{Taborda_2016}\citet{Anderson_2004_Proc};\citet{Taborda_2013_BSSA}.
