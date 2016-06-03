@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  3 JUN 2016 11:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  3 JUN 2016 11:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -777,26 +777,47 @@ Package pdftex.def Info: figures/pdf/figure-04.pdf used on input line 26.
 
 LaTeX Warning: Float too large for page by 39.02051pt on input line 29.
 
+
+Package natbib Warning: Citation `Taborda_2013_BSSA' on page 4 undefined on inp
+ut line 32.
+
+
+Package natbib Warning: Citation `Taborda_2016' on page 4 undefined on input li
+ne 32.
+
 <figures/pdf/figure-05.pdf, id=669, 515.91347pt x 558.93417pt>
 File: figures/pdf/figure-05.pdf Graphic file (type pdf)
 
 <use figures/pdf/figure-05.pdf>
 Package pdftex.def Info: figures/pdf/figure-05.pdf used on input line 38.
 (pdftex.def)             Requested size: 504.0pt x 546.02898pt.
-) (./analysis.tex) (./conclusions.tex)
-(./acknowledgments.tex))
+) (./discussion-and-conclusions.tex
+
+pdfTeX warning: /Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin
+/pdflatex (file ./figures/pdf/figure-06.pdf): PDF inclusion: found PDF version 
+<1.7>, but at most version <1.5> allowed
+<figures/pdf/figure-06.pdf, id=670, 682.55pt x 190.51376pt>
+File: figures/pdf/figure-06.pdf Graphic file (type pdf)
+
+<use figures/pdf/figure-06.pdf>
+Package pdftex.def Info: figures/pdf/figure-06.pdf used on input line 11.
+(pdftex.def)             Requested size: 504.0pt x 140.67854pt.
+) (./acknowledgments.tex) (./short-authors.tex)
+[4] (./short-title.tex) [5 <./figures/pdf/figure-03.pdf>] (./short-authors.tex)
+[6 <./figures/pdf/figure-04.pdf>])
 No file main.bbl.
 
 Package natbib Warning: There were undefined citations.
 
-(./short-authors.tex) [4] (./short-title.tex) [5 <./figures/pdf/figure-03.pdf>]
-(./short-authors.tex) [6 <./figures/pdf/figure-04.pdf>] (./short-title.tex)
-[7 <./figures/pdf/figure-05.pdf>] (./main.aux) ) 
+(./short-title.tex) [7
+
+ <./figures/pdf/figure-05.pdf>] (./short-authors.tex)
+[8 <./figures/pdf/figure-06.pdf>] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 6566 strings out of 493117
- 89985 string characters out of 6135433
- 214542 words of memory out of 5000000
- 9814 multiletter control sequences out of 15000+600000
+ 6571 strings out of 493117
+ 90181 string characters out of 6135433
+ 214550 words of memory out of 5000000
+ 9819 multiletter control sequences out of 15000+600000
  24241 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  46i,16n,43p,1730b,305s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -815,10 +836,10 @@ ts/cm/cmr9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmsy9.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmb8a.p
 fb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/l
 ocal/texlive/2014/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (7 pages, 35054190 bytes).
+Output written on main.pdf (8 pages, 35090126 bytes).
 PDF statistics:
- 16357 PDF objects out of 18468 (max. 8388607)
- 376 compressed objects within 4 object streams
+ 16366 PDF objects out of 18468 (max. 8388607)
+ 382 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
